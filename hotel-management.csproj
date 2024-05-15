@@ -10,11 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="linq2db" Version="5.4.1" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.4" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="DAO\" />
   </ItemGroup>
 
 </Project>

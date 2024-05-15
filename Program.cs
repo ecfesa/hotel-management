@@ -1,7 +1,11 @@
+using hotel_management.DAO;
+using LinqToDB.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<DataConnection, HotelDataConnection>();
 
 var app = builder.Build();
 
