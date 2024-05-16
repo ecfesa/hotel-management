@@ -10,19 +10,10 @@ using hotel_management.DAO;
 
 namespace hotel_management.Controllers
 {
-    [Route("[controller]")]
-
     public class StandardController<T> : Controller where T : StandardViewModel
     {
 
-        private readonly ILogger<StandardController<StandardViewModel>> _logger;
-
-        public StandardController(ILogger<StandardController<StandardViewModel>> logger)
-        {
-            _logger = logger;
-        }
-
-        protected StandardDAO<T> DAO { get; set; }
+        protected StandardDAO<T>? DAO { get; set; }
         protected string IndexViewName { get; set; } = "Index";
         protected string FormViewName { get; set; } = "Form";
 
