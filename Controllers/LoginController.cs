@@ -10,7 +10,7 @@ using Microsoft.Extensions.WebEncoders.Testing;
 
 namespace hotel_management.Controllers
 {
-    public class LoginController : StandardController<LoginViewModel>
+    public class LoginController : StandardController<StandardViewModel>
     {
 
         public IActionResult NewLogin(){

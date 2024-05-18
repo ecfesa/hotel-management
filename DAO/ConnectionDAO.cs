@@ -10,7 +10,7 @@ namespace hotel_management.DAO
     {
         public static SqlConnection GetConnection()
         {
-            string strConn = "Data Source=LOCALHOST; Database=AULADB; user id=sa; password=123456";
+            string strConn = "Data Source=LOCALHOST; Database=AlunoDB; user id=sa; password=123456878RH@";
             SqlConnection conn = new SqlConnection(strConn);
             conn.Open();
             return conn;

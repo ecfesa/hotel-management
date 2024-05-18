@@ -31,7 +31,7 @@ namespace hotel_management.DAO
                 using (SqlDataAdapter adapter = new SqlDataAdapter(nomeProc, conn))
                 {
                 if (parameters != null)
-                    adapter.SelectCommand.Parameters.AddRange(parameparameterstros);
+                    adapter.SelectCommand.Parameters.AddRange(parameters);
                 adapter.SelectCommand.CommandType = CommandType.StoredProcedure;
                 DataTable table = new DataTable();
                 adapter.Fill(table);

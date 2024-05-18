@@ -1,4 +1,3 @@
-@model hotel_management.Models.LoginViewModel
 @{
     ViewData["Title"] = "Hotelaria2 - New Login XXXXXXXXXX";
 }
@@ -11,12 +10,10 @@
         <div class="col-md-12">
             <form method="post" asp-action="Register">
                 <div class="form-group">
-                    <label asp-for="Email"></label>
-                    <input asp-for="Email" class="form-control"/>
+                    <label> Email </label>
 
                 <div class="form-group">
-                    <label asp-for="Password"></label>
-                    <input asp-for="Password" class="form-control" />
+                    <label> Password </label>
                 </div>
 
                 <button type="submit" class="btn-primary">Register</button>

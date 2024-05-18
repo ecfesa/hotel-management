@@ -9,7 +9,6 @@ namespace hotel_management.Models
     public class CustomerViewModel : StandardViewModel
     {
         
-        public int UserID { get; set; }
         public string Username { get; set; }
 
         public string PasswordHash { get; set; }

@@ -1,4 +1,6 @@
 ﻿using hotel_management.Models;
+using hotel_management.DAO;
+using System.Data.SqlClient;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
