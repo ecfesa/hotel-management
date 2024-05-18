@@ -1,0 +1,35 @@
+@model List<ReservationViewModel>
+@{
+    ViewData["Title"] = "Reservations";
+    var roomInfo = ViewBag.RoomInfo as Dictionary<int, string>;
+}
+
+<table class="table table-responsive">
+    <tr>
+        <th>Action</th>
+        <th>IsPaid</th>
+        <th>CustomerID</th>
+        <th>RoomID</th>
+        <th>RoomType</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                AAAAAAAA
+            </td>
+            <td>
+                @item.IsPaid.ToString()
+            </td>
+            <td>
+                @item.CustomerID.ToString()
+            </td>
+            <td>
+                @item.RoomID
+            </td>
+            <td>
+                @roomInfo[item.RoomID]
+            </td>
+        </tr>
+    }
+</table>
