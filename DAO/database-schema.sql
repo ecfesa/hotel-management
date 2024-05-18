@@ -47,7 +47,7 @@ CREATE TABLE Reservations (
     IsPaid BIT NOT NULL DEFAULT 0,
     CustomerID INT,
     RoomID INT,
-    FOREIGN KEY (CustomerID) REFERENCES Person(PersonID),
+    FOREIGN KEY (CustomerID) REFERENCES Persons(PersonID),
     FOREIGN KEY (RoomID) REFERENCES Rooms(RoomID),
     -- Add any other relevant fields
 );
