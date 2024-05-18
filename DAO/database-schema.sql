@@ -47,7 +47,7 @@ CREATE TABLE Reservations (
     IsPaid BIT NOT NULL DEFAULT 0,
     CustomerID INT,
     RoomID INT,
-    FOREIGN KEY (CustomerID) REFERENCES Customers(UserID),
+    FOREIGN KEY (CustomerID) REFERENCES Person(PersonID),
     FOREIGN KEY (RoomID) REFERENCES Rooms(RoomID),
     -- Add any other relevant fields
 );
@@ -71,12 +71,14 @@ STORED PROCEDURES
 CREATE PROCEDURE spInsert_Persons
     @FirstName VARCHAR(50),
     @LastName VARCHAR(50),
+    @Username VARCHAR(50),
+    @PasswordHash VARCHAR(50),
     @Email VARCHAR(100),
     @PhoneNumber VARCHAR(20)
 AS
 BEGIN
-    INSERT INTO Persons (FirstName, LastName, Email, PhoneNumber)
-    VALUES (@FirstName, @LastName, @Email, @PhoneNumber);
+    INSERT INTO Persons (FirstName, LastName, Email, Username, PasswordHash, PhoneNumber)
+    VALUES (@FirstName, @LastName,@Email, @Username, @PasswordHash, @PhoneNumber);
 END
 GO
 
@@ -94,12 +96,14 @@ CREATE PROCEDURE spUpdate_Persons
     @PersonID INT,
     @FirstName VARCHAR(50),
     @LastName VARCHAR(50),
+    @Username VARCHAR(50),
+    @PasswordHash VARCHAR(50),
     @Email VARCHAR(100),
     @PhoneNumber VARCHAR(20)
 AS
 BEGIN
     UPDATE Persons
-    SET FirstName = @FirstName, LastName = @LastName, Email = @Email, PhoneNumber = @PhoneNumber
+    SET FirstName = @FirstName, LastName = @LastName, Email = @Email, Username = @Username, PasswordHash = @PasswordHash, PhoneNumber = @PhoneNumber
     WHERE PersonID = @PersonID;
 END
 GO
@@ -125,13 +129,11 @@ GO
 
 -- Insert into Customers
 CREATE PROCEDURE spInsert_Customers
-    @Username VARCHAR(100),
-    @PasswordHash VARCHAR(255),
     @PersonID INT
 AS
 BEGIN
-    INSERT INTO Customers (Username, PasswordHash, PersonID)
-    VALUES (@Username, @PasswordHash, @PersonID);
+    INSERT INTO Customers (PersonID)
+    VALUES (@PersonID);
 END
 GO
 
@@ -147,13 +149,11 @@ GO
 -- Update Customers
 CREATE PROCEDURE spUpdate_Customers
     @CustomerID INT,
-    @Username VARCHAR(100),
-    @PasswordHash VARCHAR(255),
     @PersonID INT
 AS
 BEGIN
     UPDATE Customers
-    SET Username = @Username, PasswordHash = @PasswordHash, PersonID = @PersonID
+    SET PersonID = @PersonID
     WHERE CustomerID = @CustomerID;
 END
 GO
@@ -180,14 +180,12 @@ GO
 
 -- Insert into Employees
 CREATE PROCEDURE spInsert_Employees
-    @Username VARCHAR(100),
     @IsAdmin BIT,
-    @PasswordHash VARCHAR(255),
     @PersonID INT
 AS
 BEGIN
-    INSERT INTO Employees (Username, IsAdmin, PasswordHash, PersonID)
-    VALUES (@Username, @IsAdmin, @PasswordHash, @PersonID);
+    INSERT INTO Employees (IsAdmin, PersonID)
+    VALUES (@IsAdmin, @PersonID);
 END
 GO
 
@@ -203,15 +201,13 @@ GO
 -- Update Employees
 CREATE PROCEDURE spUpdate_Employees
     @EmployeeID INT,
-    @Username VARCHAR(100),
     @IsAdmin BIT,
-    @PasswordHash VARCHAR(255),
     @PersonID INT
 AS
 BEGIN
     UPDATE Employees
-    SET Username = @Username, IsAdmin = @IsAdmin, PasswordHash = @PasswordHash, PersonID = @PersonID
-    WHERE UserID = @UserID;
+    SET IsAdmin = @IsAdmin, PersonID = @PersonID
+    WHERE EmployeeID = @EmployeeID;
 END
 GO
 
@@ -225,7 +221,7 @@ GO
 
 -- Get specific Employee
 CREATE PROCEDURE spGet_Employees
-    @UserID INT
+    @EmployeeID INT
 AS
 BEGIN
     SELECT * FROM Employees WHERE EmployeeID = @EmployeeID;
