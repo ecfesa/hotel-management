@@ -13,7 +13,10 @@ namespace hotel_management.Controllers
     public class StandardController<T> : Controller where T : StandardViewModel
     {
 
+        // Standard Controller for CRUD operations
         protected StandardDAO<T>? DAO { get; set; }
+
+        // Default view names
         protected string IndexViewName { get; set; } = "Index";
         protected string FormViewName { get; set; } = "Form";
 
@@ -29,6 +32,7 @@ namespace hotel_management.Controllers
             }
         }
 
+        // Shows all the items in the database
         public virtual IActionResult Create()
         {
             try
@@ -42,6 +46,7 @@ namespace hotel_management.Controllers
             }
         }
 
+        // Saves the item in the database
         public virtual IActionResult Save(T model, string operation)
         {
             try
@@ -60,6 +65,7 @@ namespace hotel_management.Controllers
             }
         }
 
+        // Shows the item in the database
         public IActionResult Edit(int id)
         {
             try
@@ -78,6 +84,7 @@ namespace hotel_management.Controllers
             }
         }
 
+        // Deletes the item in the database
         public IActionResult Delete(int id)
         {
             try

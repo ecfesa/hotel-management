@@ -11,12 +11,12 @@ namespace hotel_management.DAO
     public class RoomsDAO : StandardDAO<RoomsViewModel>
     {
 
-      public RoomsDAO()
-      {
-        Table = "Rooms";
-      }
+        public RoomsDAO()
+        {
+            Table = "Rooms";
+        }
 
-      public override RoomsViewModel Get(int id)
+        public override RoomsViewModel Get(int id)
         {
             // Implementação do método de consulta por id
 
@@ -32,29 +32,29 @@ namespace hotel_management.DAO
                 return null;
         }
 
-      protected override SqlParameter[] CreateParameters(RoomsViewModel model)
-      {
-          SqlParameter[] parameters = new SqlParameter[5];
-          parameters[0] = new SqlParameter("@RoomNumber", model.RoomNumber);
-          parameters[1] = new SqlParameter("@RoomType", model.RoomType);
-          parameters[2] = new SqlParameter("@Rate", model.Rate);
-          parameters[3] = new SqlParameter("@Description", model.Description ?? (object)DBNull.Value);
-          parameters[4] = new SqlParameter("@IsAvailable", model.IsAvailable);
-          return parameters;
-      }
+        protected override SqlParameter[] CreateParameters(RoomsViewModel model)
+        {
+            SqlParameter[] parameters = new SqlParameter[5];
+            parameters[0] = new SqlParameter("@RoomNumber", model.RoomNumber);
+            parameters[1] = new SqlParameter("@RoomType", model.RoomType);
+            parameters[2] = new SqlParameter("@Rate", model.Rate);
+            parameters[3] = new SqlParameter("@Description", model.Description ?? (object)DBNull.Value);
+            parameters[4] = new SqlParameter("@IsAvailable", model.IsAvailable);
+            return parameters;
+        }
 
-      protected override RoomsViewModel MountModel(DataRow row)
-      {
-          RoomsViewModel room = new RoomsViewModel();
-          room.Id = (int)row["RoomID"];
-          room.RoomNumber = Convert.ToInt32(row["RoomNumber"]);
-          room.RoomType = row["RoomType"].ToString();
-          room.Rate = (decimal)row["Rate"];
-          room.Description = row["Description"] != DBNull.Value ? row["Description"].ToString() : null;
-          room.IsAvailable = (bool)row["IsAvailable"];
-          
-          return room;
-      }
-        
+        protected override RoomsViewModel MountModel(DataRow row)
+        {
+            RoomsViewModel room = new RoomsViewModel();
+            room.Id = (int)row["RoomID"];
+            room.RoomNumber = Convert.ToInt32(row["RoomNumber"]);
+            room.RoomType = row["RoomType"].ToString();
+            room.Rate = (decimal)row["Rate"];
+            room.Description = row["Description"] != DBNull.Value ? row["Description"].ToString() : null;
+            room.IsAvailable = (bool)row["IsAvailable"];
+
+            return room;
+        }
+
     }
 }

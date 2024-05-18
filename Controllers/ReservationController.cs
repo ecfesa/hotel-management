@@ -11,13 +11,12 @@ namespace hotel_management.Controllers
 {
     public class ReservationController : StandardController<ReservationViewModel>
     {
-
         public ReservationController(){
         }
 
         public IActionResult ViewReservations(){
 
-            // Show all Reservations made
+            // Shows all Reservations made
 
             List<ReservationViewModel> reservations_list = new List<ReservationViewModel>();
             ReservationsDAO reservationsDAO = new ReservationsDAO();
@@ -39,6 +38,8 @@ namespace hotel_management.Controllers
 
         public IActionResult NewReservation()
         {
+            // Shows the form to make a new reservation
+
             try
             {
                 return View("ReservationForm");

@@ -1,0 +1,41 @@
+﻿@using hotel_management.DAO
+
+@model List<RoomsViewModel>
+@{
+    ViewData["Title"] = "Rooms";
+    var roomInfo = ViewBag.RoomInfo as Dictionary<int, string>;
+}
+
+<table class="table table-responsive">
+    <tr>
+        <th>Action</th>
+        <th>Number</th>
+        <th>Type</th>
+        <th>Rate</th>
+        <th>Description</th>
+        <th>Availability</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                BBBBBBBBBBBB
+            </td>
+            <td>
+                @item.RoomNumber.ToString()
+            </td>
+            <td>
+                @item.RoomType
+            </td>
+            <td>
+                @item.Rate.ToString()
+            </td>
+            <td>
+                @item.Description
+            </td>
+            <td>
+                @item.IsAvailable ? "Yes" : "No"
+            </td>
+        </tr>
+    }
+</table>
