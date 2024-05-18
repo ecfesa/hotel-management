@@ -139,16 +139,16 @@ GO
 
 -- Delete from Customers
 CREATE PROCEDURE spDelete_Customers
-    @UserID INT
+    @CustomerID INT
 AS
 BEGIN
-    DELETE FROM Customers WHERE UserID = @UserID;
+    DELETE FROM Customers WHERE CustomerID = @CustomerID;
 END
 GO
 
 -- Update Customers
 CREATE PROCEDURE spUpdate_Customers
-    @UserID INT,
+    @CustomerID INT,
     @Username VARCHAR(100),
     @PasswordHash VARCHAR(255),
     @PersonID INT
@@ -156,7 +156,7 @@ AS
 BEGIN
     UPDATE Customers
     SET Username = @Username, PasswordHash = @PasswordHash, PersonID = @PersonID
-    WHERE UserID = @UserID;
+    WHERE CustomerID = @CustomerID;
 END
 GO
 
@@ -170,10 +170,10 @@ GO
 
 -- Get specific Customer
 CREATE PROCEDURE spGet_Customers
-    @UserID INT
+    @CustomerID INT
 AS
 BEGIN
-    SELECT * FROM Customers WHERE UserID = @UserID;
+    SELECT * FROM Customers WHERE CustomerID = @CustomerID;
 END
 GO
 
@@ -195,16 +195,16 @@ GO
 
 -- Delete from Employees
 CREATE PROCEDURE spDelete_Employees
-    @UserID INT
+    @EmployeeID INT
 AS
 BEGIN
-    DELETE FROM Employees WHERE UserID = @UserID;
+    DELETE FROM Employees WHERE EmployeeID = @EmployeeID;
 END
 GO
 
 -- Update Employees
 CREATE PROCEDURE spUpdate_Employees
-    @UserID INT,
+    @EmployeeID INT,
     @Username VARCHAR(100),
     @IsAdmin BIT,
     @PasswordHash VARCHAR(255),
@@ -230,7 +230,7 @@ CREATE PROCEDURE spGet_Employees
     @UserID INT
 AS
 BEGIN
-    SELECT * FROM Employees WHERE UserID = @UserID;
+    SELECT * FROM Employees WHERE EmployeeID = @EmployeeID;
 END
 GO
 
@@ -298,16 +298,14 @@ GO
 
 -- Insert into Reservations
 CREATE PROCEDURE spInsert_Reservations
-    @CheckInDate DATE,
-    @CheckOutDate DATE,
     @TotalAmount DECIMAL(10, 2),
     @IsPaid BIT,
     @CustomerID INT,
     @RoomID INT
 AS
 BEGIN
-    INSERT INTO Reservations (CheckInDate, CheckOutDate, TotalAmount, IsPaid, CustomerID, RoomID)
-    VALUES (@CheckInDate, @CheckOutDate, @TotalAmount, @IsPaid, @CustomerID, @RoomID);
+    INSERT INTO Reservations (TotalAmount, IsPaid, CustomerID, RoomID)
+    VALUES (@TotalAmount, @IsPaid, @CustomerID, @RoomID);
 END
 GO
 
@@ -322,9 +320,7 @@ GO
 
 -- Update Reservations
 CREATE PROCEDURE spUpdate_Reservations
-    @ReservationID INT,
-    @CheckInDate DATE,
-    @CheckOutDate DATE,
+    @ReservationID INT
     @TotalAmount DECIMAL(10, 2),
     @IsPaid BIT,
     @CustomerID INT,
@@ -332,7 +328,7 @@ CREATE PROCEDURE spUpdate_Reservations
 AS
 BEGIN
     UPDATE Reservations
-    SET CheckInDate = @CheckInDate, CheckOutDate = @CheckOutDate, TotalAmount = @TotalAmount, IsPaid = @IsPaid, CustomerID = @CustomerID, RoomID = @RoomID
+    SET TotalAmount = @TotalAmount, IsPaid = @IsPaid, CustomerID = @CustomerID, RoomID = @RoomID
     WHERE ReservationID = @ReservationID;
 END
 GO

@@ -16,6 +16,22 @@ namespace hotel_management.DAO
         Table = "Rooms";
       }
 
+      public override RoomsViewModel Get(int id)
+        {
+            // Implementação do método de consulta por id
+
+            var p = new SqlParameter[]{
+                new SqlParameter("RoomID", id),
+            };
+
+            var table = HelperDAO.ExecutaProcSelect("spGet_" + Table, p);
+
+            if (table.Rows.Count != 0)
+                return MountModel(table.Rows[0]);
+            else
+                return null;
+        }
+
       protected override SqlParameter[] CreateParameters(RoomsViewModel model)
       {
           SqlParameter[] parameters = new SqlParameter[5];
@@ -31,7 +47,7 @@ namespace hotel_management.DAO
       {
           RoomsViewModel room = new RoomsViewModel();
           room.Id = (int)row["RoomID"];
-          room.RoomNumber = (int)row["RoomNumber"];
+          room.RoomNumber = Convert.ToInt32(row["RoomNumber"]);
           room.RoomType = row["RoomType"].ToString();
           room.Rate = (decimal)row["Rate"];
           room.Description = row["Description"] != DBNull.Value ? row["Description"].ToString() : null;
