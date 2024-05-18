@@ -18,11 +18,13 @@ namespace hotel_management.DAO
 
         protected override SqlParameter[] CreateParameters(PersonViewModel model)
         {
-            SqlParameter[] parameters = new SqlParameter[4];
+            SqlParameter[] parameters = new SqlParameter[6];
             parameters[0] = new SqlParameter("@FirstName", model.FirstName);
             parameters[1] = new SqlParameter("@LastName", model.LastName);
-            parameters[2] = new SqlParameter("@Email", model.Email);
-            parameters[3] = new SqlParameter("@PhoneNumber", model.PhoneNumber ?? (object)DBNull.Value);
+            parameters[4] = new SqlParameter("@Email", model.Email);
+            parameters[2] = new SqlParameter("@Username", model.Username);
+            parameters[3] = new SqlParameter("@PasswordHash", model.PasswordHash);
+            parameters[5] = new SqlParameter("@PhoneNumber", model.PhoneNumber ?? (object)DBNull.Value);
             return parameters;
         }
 

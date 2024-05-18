@@ -13,14 +13,6 @@ namespace hotel_management.Controllers
     public class LoginController : StandardController<StandardViewModel>
     {
 
-        public IActionResult NewLogin(){
-            return View("Register");
-        }
-
-        public IActionResult Register(){
-            return RedirectToAction("Index");
-        }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
