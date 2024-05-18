@@ -4,6 +4,8 @@ CREATE TABLE Persons (
     FirstName VARCHAR(50) NOT NULL,
     LastName VARCHAR(50) NOT NULL,
     Email VARCHAR(100) NOT NULL,
+    Username VARCHAR(100) NOT NULL,
+    PasswordHash VARCHAR(255) NOT NULL,
     PhoneNumber VARCHAR(20),
     -- Add any other relevant fields
 );
@@ -11,8 +13,6 @@ CREATE TABLE Persons (
 -- Table for storing customer information
 CREATE TABLE Customers (
     CustomerID INT PRIMARY KEY IDENTITY,
-    Username VARCHAR(100) NOT NULL,
-    PasswordHash VARCHAR(255) NOT NULL,
     PersonID INT,
     FOREIGN KEY (PersonID) REFERENCES Persons(PersonID)
 );
@@ -20,9 +20,7 @@ CREATE TABLE Customers (
 -- Table for storing employee information
 CREATE TABLE Employees (
     EmployeeID INT PRIMARY KEY IDENTITY,
-    Username VARCHAR(100) NOT NULL,
     IsAdmin BIT NOT NULL DEFAULT 0,
-    PasswordHash VARCHAR(255) NOT NULL,
     PersonID INT,
     FOREIGN KEY (PersonID) REFERENCES Persons(PersonID)
 );
