@@ -1,1 +1,61 @@
-﻿<div>Room View</div>
+﻿@using hotel_management.DAO
+@model RoomsViewModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@(Model.Id == 0 ? "Create Room" : "Edit Room")</title>
+    <link rel="stylesheet" type="text/css" href="~/Content/Site.css" />
+</head>
+<body>
+    <h2>@(Model.Id == 0 ? "Create Room" : "Edit Room")</h2>
+
+    <form asp-action="@(Model.Id == 0 ? "Create" : "Edit")" method="post" enctype="multipart/form-data">
+        <input name="__RequestVerificationToken" type="hidden" value="@Html.AntiForgeryToken()" />
+
+        <div class="form-group">
+            <label for="RoomNumber">Room Number</label>
+            <input type="number" id="RoomNumber" name="RoomNumber" class="form-control" value="@Model.RoomNumber" required />
+            <span asp-validation-for="RoomNumber" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="RoomType">Room Type</label>
+            <input type="text" id="RoomType" name="RoomType" class="form-control" value="@Model.RoomType" required />
+            <span asp-validation-for="RoomType" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="Rate">Rate</label>
+            <input type="number" step="0.01" id="Rate" name="Rate" class="form-control" value="@Model.Rate" required />
+            <span asp-validation-for="Rate" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="Description">Description</label>
+            <textarea id="Description" name="Description" class="form-control" rows="5">@Model.Description</textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="IsAvailable">Is Available</label>
+            <input type="checkbox" id="IsAvailable" name="IsAvailable" @(Model.IsAvailable ? "checked" : "") />
+            <span asp-validation-for="IsAvailable" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="InternalImage">Picture</label>
+            <input type="file" id="InternalImage" name="InternalImage" class="form-control" />
+            <span asp-validation-for="InternalImage" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="@Url.Action("Index", "Rooms")" class="btn btn-secondary">Back to List</a>
+    </form>
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
+</body>
+</html>

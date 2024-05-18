@@ -1,6 +1,7 @@
 ﻿using hotel_management.DAO;
 using hotel_management.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Data.SqlClient;
 
 namespace hotel_management.Controllers
 {
@@ -8,6 +9,18 @@ namespace hotel_management.Controllers
     {
         public RoomController()
         {
+        }
+
+        public byte[] ConvertImageToByte(IFormFile file)
+        {
+            if (file != null)
+                using (var ms = new MemoryStream())
+                {
+                    file.CopyTo(ms);
+                    return ms.ToArray();
+                }
+            else
+                return null;
         }
 
         public IActionResult ViewRooms()

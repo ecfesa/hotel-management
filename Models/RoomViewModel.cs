@@ -14,6 +14,8 @@ namespace hotel_management.DAO
         public decimal Rate { get; set; }
         public string Description { get; set; }
         public bool IsAvailable { get; set; }
-        
+        public IFormFile Image { get; set; }
+        public byte[] InternalImage { get; set; }
+
     }
 }

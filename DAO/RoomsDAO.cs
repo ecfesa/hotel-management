@@ -34,12 +34,17 @@ namespace hotel_management.DAO
 
         protected override SqlParameter[] CreateParameters(RoomsViewModel model)
         {
+            object imgByte = model.InternalImage;
+            if (imgByte == null)
+                imgByte = DBNull.Value;
+
             SqlParameter[] parameters = new SqlParameter[5];
             parameters[0] = new SqlParameter("@RoomNumber", model.RoomNumber);
             parameters[1] = new SqlParameter("@RoomType", model.RoomType);
             parameters[2] = new SqlParameter("@Rate", model.Rate);
             parameters[3] = new SqlParameter("@Description", model.Description ?? (object)DBNull.Value);
             parameters[4] = new SqlParameter("@IsAvailable", model.IsAvailable);
+            parameters[5] = new SqlParameter("@Picture", imgByte);
             return parameters;
         }
 
@@ -52,6 +57,9 @@ namespace hotel_management.DAO
             room.Rate = (decimal)row["Rate"];
             room.Description = row["Description"] != DBNull.Value ? row["Description"].ToString() : null;
             room.IsAvailable = (bool)row["IsAvailable"];
+
+            if (row["Picture"] != DBNull.Value)
+                room.InternalImage = row["Picture"] as byte[];
 
             return room;
         }
