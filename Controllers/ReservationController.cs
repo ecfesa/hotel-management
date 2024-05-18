@@ -39,14 +39,30 @@ namespace hotel_management.Controllers
 
         public IActionResult NewReservation()
         {
+
+            RoomsDAO roomsDAO = new RoomsDAO();
+
             try
             {
-                return View("ReservationForm");
+                ReservationViewModel model = new ReservationViewModel();
+
+                model.IsPaid = false;
+                model.TotalAmount = 0;
+
+                model.AvailableRooms = roomsDAO.GetAvailableRooms();
+
+                return View("ReservationForm", model);
             }
             catch (Exception error)
             {
                 return View("Error", new ErrorViewModel(error.ToString()));
             }
+        }
+
+        public IActionResult SaveReservation(){
+
+            return RedirectToAction("Index", "Home");
+
         }
 
     }

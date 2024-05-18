@@ -40,5 +40,20 @@ namespace hotel_management.DAO
                 }
             }
         }
+    
+        public static DataTable ExecuteSelect(string sql, SqlParameter[] parameters)
+        {
+            using(SqlConnection conn = ConnectionDAO.GetConnection())
+            {
+                using(SqlDataAdapter adapter = new SqlDataAdapter(sql, conn))
+                {
+                    if (parameters != null)
+                        adapter.SelectCommand.Parameters.AddRange(parameters);
+                    DataTable tabela = new DataTable();
+                    adapter.Fill(tabela);
+                    return tabela;
+                }
+            }
+        }
     }
 }
