@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
 using System.Data.SqlClient;
 
 namespace hotel_management.DAO
@@ -10,11 +8,30 @@ namespace hotel_management.DAO
     {
         public static SqlConnection GetConnection()
         {
-            string strConn = "Data Source=LOCALHOST; Database=AlunoDB; user id=sa; password=123456878RH@";
-            SqlConnection conn = new SqlConnection(strConn);
-            conn.Open();
+            string filePath = "connectionString.txt"; 
+            string strConn;
+            
+            try
+            {
+                strConn = File.ReadAllText(filePath); 
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Could not read the connection string from the file.", ex);
+            }
+
+            SqlConnection conn;
+            try
+            {
+                conn = new SqlConnection(strConn);
+                conn.Open();
+            }
+            catch (SqlException ex)
+            {
+                throw new ApplicationException("Could not open a connection to the database.", ex);
+            }
+
             return conn;
         }
-        
     }
 }
