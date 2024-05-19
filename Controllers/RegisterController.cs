@@ -11,7 +11,7 @@ using Microsoft.Extensions.WebEncoders.Testing;
 
 namespace hotel_management.Controllers
 {
-    public class RegisterController : StandardController<StandardViewModel>
+    public class RegisterController : StandardController<PersonViewModel>
     {
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -20,7 +20,7 @@ namespace hotel_management.Controllers
         }
 
 
-        public IActionResult SaveRegistration(PersonViewModel model){
+        public override IActionResult Save(PersonViewModel model, string operation){
             
             PersonsDAO DAO = new PersonsDAO();
 

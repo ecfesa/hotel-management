@@ -41,25 +41,15 @@ namespace hotel_management.DAO
             return person;
         }
         
-        public bool LoginVerification(string username, string password){
+        public bool LoginExists(string username, string password){
 
             SqlParameter[] parameters = new SqlParameter[2];
             parameters[0] = new SqlParameter("@Username", username);
             parameters[1] = new SqlParameter("@PasswordHash", password);
 
-
-            Console.WriteLine("parameter[0]:" + parameters[1]);
-
-            Console.WriteLine("username:" + username);
-            Console.WriteLine("password:" + password);
-
             string sql = "SELECT * FROM " + Table + " WHERE Username = @Username AND PasswordHash = @PasswordHash";
 
-            DataTable table = HelperDAO.ExecuteSelect(sql, parameters);
-
-            Console.WriteLine("table row count:" + table.Rows.Count);
-
-            return table.Rows.Count >= 1;
+            return HelperDAO.ExecuteSelect(sql, parameters).Rows.Count >= 1;
         }
     }
 }

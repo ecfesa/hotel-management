@@ -20,19 +20,26 @@ namespace hotel_management.Controllers
             return View("Error!");
         }
 
-        public IActionResult Login(PersonViewModel model){
+        public IActionResult Login(PersonViewModel model)
+        {
             
             PersonsDAO DAO = new PersonsDAO();
 
-            if(DAO.LoginVerification(model.Username, HashHelper.ComputeSha256Hash(model.PasswordHash)))
+            if(DAO.LoginExists(model.Username, HashHelper.ComputeSha256Hash(model.PasswordHash)))
             {
-                HttpContext.Session.SetString("Logado", "true");
+                HttpContext.Session.SetString("UserLogin", "true");
                 return RedirectToAction("index", "Home");
             }
             else
             {
                 return View("Index");
             } 
+        }
+    
+        public IActionResult LogOut()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index");
         }
     }
 }
