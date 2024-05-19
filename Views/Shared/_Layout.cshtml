@@ -12,7 +12,7 @@
     <title>@ViewData["Title"] - Hotelaria</title>
 </head>
 
-<body class="bg-slate-200 h-full flex flex-col">
+<body class="bg-slate-200 h-fit flex flex-col">
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -35,7 +35,7 @@
                 @if(ViewBag.UserLogin == true){
                     <li><a href="/" target="_blank">> Check-In</a></li>
                     <li><a href="/" target="_blank">> Quartos</a></li>
-                    <li><a href="/" target="_blank">> Reservas</a></li>
+                    <li><a href="/reservation" target="_blank">> Reservas</a></li>
                 }
                 else
                 {

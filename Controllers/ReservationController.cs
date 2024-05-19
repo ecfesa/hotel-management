@@ -17,7 +17,7 @@ namespace hotel_management.Controllers
             NeedsAuthentication = true;
         }
 
-        public IActionResult ViewReservations(){
+        public override IActionResult Index(){
 
             // Show all Reservations made
 
@@ -41,9 +41,19 @@ namespace hotel_management.Controllers
 
         public IActionResult NewReservation()
         {
+
+            RoomsDAO roomsDAO = new RoomsDAO();
+
             try
             {
-                return View("ReservationForm");
+                ReservationViewModel model = new ReservationViewModel();
+
+                model.IsPaid = false;
+                model.TotalAmount = 0;
+
+                model.AvailableRooms = roomsDAO.GetAvailableRooms();
+
+                return View("ReservationForm", model);
             }
             catch (Exception error)
             {
