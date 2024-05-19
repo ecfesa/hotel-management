@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using hotel_management.Models;
 using hotel_management.DAO;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
@@ -13,6 +14,7 @@ namespace hotel_management.Controllers
     {
 
         public ReservationController(){
+            NeedsAuthentication = true;
         }
 
         public IActionResult ViewReservations(){
@@ -59,11 +61,15 @@ namespace hotel_management.Controllers
             }
         }
 
-        public IActionResult SaveReservation(){
-
-            return RedirectToAction("Index", "Home");
-
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            if (NeedsAuthentication && !HelperController.LoginSessionVerification(HttpContext.Session))
+                context.Result = RedirectToAction("Index", "Login");
+            else
+            {
+                ViewBag.UserLogin = true;
+                base.OnActionExecuting(context);
+            }
         }
-
     }
 }

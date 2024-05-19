@@ -49,9 +49,9 @@ namespace hotel_management.DAO
                 {
                     if (parameters != null)
                         adapter.SelectCommand.Parameters.AddRange(parameters);
-                    DataTable tabela = new DataTable();
-                    adapter.Fill(tabela);
-                    return tabela;
+                    DataTable table = new DataTable();
+                    adapter.Fill(table);
+                    return table;
                 }
             }
         }

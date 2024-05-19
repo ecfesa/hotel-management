@@ -9,7 +9,7 @@
             width: 100%;
         }
     </style>
-    <title>@ViewData["Title"] - hotel_management</title>
+    <title>@ViewData["Title"] - Hotelaria</title>
 </head>
 
 <body class="bg-slate-200 h-fit flex flex-col">
@@ -18,17 +18,32 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <header class="text-white bg-blue-900 flex flex-row justify-between py-6 m-2 px-4 rounded-xl drop-shadow-xl">
-        <h1 class="">Hotelaria</h1>
-        <button class="px-2 py-1 outline outline-1 outline-offset-1 transition-all ease-in-out hover:outline hover:outline-offset-2 hover:outline-2 hover:outline rounded">Login</button>  
+        <h1 class="text-3xl"><a href="/">Hotelaria</a></h1>
+        @if(ViewBag.UserLogin == true){
+            <a href="/login/logout" class="px-2 py-1 outline outline-1 outline-offset-1 transition-all ease-in-out hover:outline hover:outline-offset-2 hover:outline-2 hover:outline hover:outline-white hover:bg-white hover:text-black rounded">Logout</a>
+        }
+        else
+        {
+            <a href="/login" class="px-2 py-1 outline outline-1 outline-offset-1 transition-all ease-in-out hover:outline hover:outline-offset-2 hover:outline-2 hover:outline hover:outline-white hover:bg-white hover:text-black rounded">Login</a>  
+        }
     </header> 
 
-    <div class="flex flex-row min-h-full h-fit w-full mx-auto p-4 space-x-4">
-        <div class="h-full w-96 p-4 bg-slate-50 rounded-xl drop-shadow-xl">
-            <h1 class="text-xl pb-4 font-bold">Options</h1>
+    <div class="flex flex-row h-full w-full mx-auto p-4 space-x-4">
+        <div class="h-full w-fit p-4 bg-slate-50 rounded-xl drop-shadow-xl">
+            <h1 class="text-xl pb-4 font-bold">Opções</h1>
             <ul>
-                <li><a href="/" target="_blank">> Check-In</a></li>
-                <li><a href="/" target="_blank">> Rooms</a></li>
-                <li><a href="/Reservation/ViewReservations" target="_blank">> Reservations</a></li>
+                @if(ViewBag.UserLogin == true){
+                    <li><a href="/" target="_blank">> Check-In</a></li>
+                    <li><a href="/" target="_blank">> Quartos</a></li>
+                    <li><a href="/" target="_blank">> Reservas</a></li>
+                }
+                else
+                {
+                    <label>
+                        Realize seu Login <br>
+                        para acessar as opções
+                    </label>
+                }
             </ul>
         </div>
         <div class="grow h-full bg-slate-50 rounded-xl drop-shadow-xl">
