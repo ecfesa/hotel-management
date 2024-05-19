@@ -1,38 +1,40 @@
 @model ReservationViewModel
 @{
-    ViewData["Title"] = "Hotelaria2 - New Registration XXXXXXXXXX";
+    ViewData["Title"] = "Hotelaria2 - New Registration";
 }
 
-<div>Reservation View</div>
+<div class="w-full flex justify-center">
+    <h1 class="text-4xl text-center m-4 p-2 border-b w-1/2">Select your room</h1>
+</div>
 
 <div class="text-center">
 
     <div class="row">
         <div class="col-md-12">
-            <form method="post" asp-action="SaveReservation">
+            <form id="reservationForm" method="post" asp-action="SaveReservation">
 
-                <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(250px, 1fr))">
+                <div class="flex flex-wrap justify-center">
                     @foreach (var room in Model.AvailableRooms)
                     {
-                        <div class="grid-item" style="border-width:5px">
-                        <img src="https://imgs.search.brave.com/dzFoS0CuMepRMmqpgpKUjE7nbCTREqZWrJpcvZzVbBY/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9jZG4u/bGlnYWRvc2dhbWVz/LmNvbS9pbWFnZW5z/L3BvZ2NoYW1wLmpw/Zw" alt="Image of Poggers" width="200" height="150" />
-                        <h3>@room.RoomType</h3>
-                        <p>@room.Description</p>
-                        <p>Rate: @room.Rate.ToString("C") per night</p>
-                        <label>
-                            <input type="toggle" name="SelectedRoomID" value="@room.Id" required />
-                            Select this room
-                        </label>
+                        <div class="room-card m-4 bg-white rounded-lg shadow-xl max-w-sm relative overflow-hidden transition-transform transform hover:scale-105" data-room-id="@room.Id">
+                            <div class="relative">
+                                <img class="w-full rounded-t-lg block" src="https://imgs.search.brave.com/dzFoS0CuMepRMmqpgpKUjE7nbCTREqZWrJpcvZzVbBY/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9jZG4u/bGlnYWRvc2dhbWVz/LmNvbS9pbWFnZW5z/L3BvZ2NoYW1wLmpw/Zw" alt="Room image" />
+                                <div class="absolute -top-3 left-0 right-0 bottom-0 bg-gradient-to-t from-white via-white/25 via-25% to-transparent rounded-t-lg"></div>
+                            </div>
+                            <div class="p-4">
+                                <h3 class="text-2xl font-bold">@room.RoomType</h3>
+                                <p class="text-gray-600">@room.Description</p>
+                                <p class="text-gray-800 mt-2">@room.Rate.ToString("C") per night</p>
+                            </div>
                         </div>
                     }
                 </div>
 
-                <div class="form-group">
-                    <input asp-for="TotalAmount">
-                </div>
+                <input type="hidden" id="selectedRoomId" name="SelectedRoomID" value="" />
+                <input type="hidden" id="totalAmount" name="TotalAmount" value="" />
 
                 <div class="form-group">
-                    <input asp-for="RoomID">
+                    <input asp-for="TotalAmount" class="form-control" />
                 </div>
 
                 <button type="submit" class="btn-primary">Confirm</button>
@@ -40,3 +42,25 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const roomCards = document.querySelectorAll('.room-card');
+            roomCards.forEach(card => {
+                card.addEventListener('click', function () {
+                    roomCards.forEach(c => c.classList.remove('selected')); // Remove selected class from all cards
+                    card.classList.add('selected'); // Add selected class to the clicked card
+                    document.getElementById('selectedRoomId').value = card.dataset.roomId; // Set hidden input value
+                });
+            });
+        });
+    </script>
+
+    <style>
+        .room-card.selected {
+            border: 2px solid #007bff;
+            transform: scale(1.05);
+        }
+    </style>
+}
