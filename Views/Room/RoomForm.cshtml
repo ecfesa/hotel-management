@@ -46,9 +46,18 @@
 
         <div class="form-group">
             <label for="InternalImage">Picture</label>
-            <input type="file" id="InternalImage" name="InternalImage" class="form-control" />
+            <input type="file" id="InternalImage" name="InternalImage" onchange="exibirImagem()" class="form-control" />
+            @if (Model.InternalImage != null)
+            {
+                <img id="imgPreview" src="@Url.Action("RenderImage", "Room", new { id = Model.Id })" class="img-responsive" width="200" />
+            }
+            else
+            {
+                <img id="imgPreview" class="img-responsive" width="200" />
+            }
             <span asp-validation-for="InternalImage" class="text-danger"></span>
         </div>
+
 
         <button type="submit" class="btn btn-primary">Save</button>
         <a href="@Url.Action("Index", "Rooms")" class="btn btn-secondary">Back to List</a>
@@ -59,3 +68,13 @@
     }
 </body>
 </html>
+
+<script>
+    function exibirImagem() {
+        var oFReader = new FileReader();
+        oFReader.readAsDataURL(document.getElementById("InternalImage").files[0]);
+        oFReader.onload = function (oFREvent) {
+            document.getElementById("imgPreview").src = oFREvent.target.result;
+        };
+    }
+</script>

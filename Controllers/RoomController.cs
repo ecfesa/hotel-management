@@ -26,14 +26,11 @@ namespace hotel_management.Controllers
         public IActionResult ViewRooms()
         {
             // Shows all available Rooms
-
             try
             {
                 RoomsDAO roomsDAO = new RoomsDAO();
                 List<RoomsViewModel> room_list = new List<RoomsViewModel>();
-
                 room_list = roomsDAO.GetAll();
-
                 return View("Index", room_list);
             }
             catch (Exception error)
@@ -44,8 +41,6 @@ namespace hotel_management.Controllers
 
         public IActionResult NewRoom()
         {
-            // Shows the form to make a new room
-
             try
             {
                 return View("RoomForm");
@@ -55,5 +50,19 @@ namespace hotel_management.Controllers
                 return View("Error", new ErrorViewModel(error.ToString()));
             }
         }
+
+        public async Task<ActionResult> RenderImage(int id)
+        {
+            RoomsDAO roomsDAO = new RoomsDAO();
+            RoomsViewModel room = roomsDAO.Get(id);
+
+            if (room == null || room.InternalImage == null)
+            {
+                return NotFound();
+            }
+
+            return File(room.InternalImage, "image/png");
+        }
     }
+
 }
