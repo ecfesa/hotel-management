@@ -1,6 +1,8 @@
 ﻿using hotel_management.Models;
 using hotel_management.DAO;
 using System.Data.SqlClient;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -17,6 +19,7 @@ namespace hotel_management.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.UserLogin = HelperController.LoginSessionVerification(HttpContext.Session);
             return View();
         }
 

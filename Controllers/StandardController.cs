@@ -13,6 +13,7 @@ namespace hotel_management.Controllers
     public class StandardController<T> : Controller where T : StandardViewModel
     {
 
+        protected bool NeedsAuthentication { get; set; } = true;
         protected StandardDAO<T>? DAO { get; set; }
         protected string IndexViewName { get; set; } = "Index";
         protected string FormViewName { get; set; } = "Form";
@@ -90,5 +91,8 @@ namespace hotel_management.Controllers
                 return View("Error", new ErrorViewModel(error.ToString()));
             }
         }
+
+        
+
     }
 }
