@@ -11,42 +11,44 @@
 <body>
     <h2>@(Model.Id == 0 ? "Create Room" : "Edit Room")</h2>
 
-    <form asp-action="@(Model.Id == 0 ? "Create" : "Edit")" method="post" enctype="multipart/form-data">
-        <input name="__RequestVerificationToken" type="hidden" value="@Html.AntiForgeryToken()" />
+    <form asp-action="Upload" method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" asp-for="Id" />
 
         <div class="form-group">
             <label for="RoomNumber">Room Number</label>
-            <input type="number" id="RoomNumber" name="RoomNumber" class="form-control" value="@Model.RoomNumber" required />
+            <input type="number" asp-for="RoomNumber" class="form-control" required />
             <span asp-validation-for="RoomNumber" class="text-danger"></span>
         </div>
 
         <div class="form-group">
             <label for="RoomType">Room Type</label>
-            <input type="text" id="RoomType" name="RoomType" class="form-control" value="@Model.RoomType" required />
+            <input type="text" asp-for="RoomType" class="form-control" required />
             <span asp-validation-for="RoomType" class="text-danger"></span>
         </div>
 
         <div class="form-group">
             <label for="Rate">Rate</label>
-            <input type="number" step="0.01" id="Rate" name="Rate" class="form-control" value="@Model.Rate" required />
+            <input type="text" asp-for="Rate" class="form-control" value="@Model.Rate.ToString("0.00")" required />
             <span asp-validation-for="Rate" class="text-danger"></span>
         </div>
 
         <div class="form-group">
             <label for="Description">Description</label>
-            <textarea id="Description" name="Description" class="form-control" rows="5">@Model.Description</textarea>
+            <textarea asp-for="Description" class="form-control" rows="5"></textarea>
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
 
         <div class="form-group">
             <label for="IsAvailable">Is Available</label>
-            <input type="checkbox" id="IsAvailable" name="IsAvailable" @(Model.IsAvailable ? "checked" : "") />
+            <input type="checkbox" asp-for="IsAvailable" />
             <span asp-validation-for="IsAvailable" class="text-danger"></span>
         </div>
 
         <div class="form-group">
             <label for="InternalImage">Picture</label>
-            <input type="file" id="InternalImage" name="InternalImage" onchange="exibirImagem()" class="form-control" />
+            <input type="file" id="InternalImage" name="file" onchange="exibirImagem()" class="form-control" />
             @if (Model.InternalImage != null)
             {
                 <img id="imgPreview" src="@Url.Action("RenderImage", "Room", new { id = Model.Id })" class="img-responsive" width="200" />
@@ -58,9 +60,8 @@
             <span asp-validation-for="InternalImage" class="text-danger"></span>
         </div>
 
-
         <button type="submit" class="btn btn-primary">Save</button>
-        <a href="@Url.Action("Index", "Rooms")" class="btn btn-secondary">Back to List</a>
+        <a href="@Url.Action("Index", "Room")" class="btn btn-secondary">Back to List</a>
     </form>
 
     @section Scripts {

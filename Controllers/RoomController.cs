@@ -1,7 +1,6 @@
 ﻿using hotel_management.DAO;
 using hotel_management.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Data.SqlClient;
 
 namespace hotel_management.Controllers
 {
@@ -11,19 +10,7 @@ namespace hotel_management.Controllers
         {
         }
 
-        public byte[] ConvertImageToByte(IFormFile file)
-        {
-            if (file != null)
-                using (var ms = new MemoryStream())
-                {
-                    file.CopyTo(ms);
-                    return ms.ToArray();
-                }
-            else
-                return null;
-        }
-
-        public IActionResult ViewRooms()
+        public override IActionResult Index()
         {
             // Shows all available Rooms
             try
@@ -43,12 +30,85 @@ namespace hotel_management.Controllers
         {
             try
             {
-                return View("RoomForm");
+                return View("RoomForm", new RoomsViewModel());
             }
             catch (Exception error)
             {
                 return View("Error", new ErrorViewModel(error.ToString()));
             }
+        }
+
+        public IActionResult EditRoom(int id)
+        {
+            try
+            {
+                RoomsDAO roomsDAO = new RoomsDAO();
+
+                RoomsViewModel room = roomsDAO.Get(id);
+                return View("RoomForm", room);
+            }
+            catch (Exception error)
+            {
+                return View("Error", new ErrorViewModel(error.ToString()));
+            }
+        }
+
+        public IActionResult DeleteRoom(int id)
+        {
+            try
+            {
+                RoomsDAO roomsDAO = new RoomsDAO();
+
+                roomsDAO.Delete(id);
+                return RedirectToAction("Index", "Room");
+            }
+            catch (Exception error)
+            {
+                return View("Error", new ErrorViewModel(error.ToString()));
+            }
+        }
+
+        public override IActionResult Save(RoomsViewModel model, string operation)
+        {
+            RoomsDAO roomsDAO = new RoomsDAO();
+
+            roomsDAO.Insert(model);
+            return RedirectToAction("Index", "Room");
+        }
+
+        public async Task<IActionResult> Upload(IFormFile file, RoomsViewModel model)
+        {
+            RoomsDAO roomsDAO = new RoomsDAO();
+
+            if (file != null && file.Length > 0)
+            {
+                using var memoryStream = new MemoryStream();
+                await file.CopyToAsync(memoryStream);
+                model.InternalImage = memoryStream.ToArray();
+            }
+            else
+            {
+                if (model.Id != 0)
+                {
+                    var existingRoom = roomsDAO.Get(model.Id);
+                    if (existingRoom != null)
+                    {
+                        model.InternalImage = existingRoom.InternalImage;
+                    }
+                }
+            }
+
+            if (model.Id == 0)
+            {
+                roomsDAO.Insert(model);
+            }
+            else
+            {
+                roomsDAO.Update(model);
+            }
+
+            return RedirectToAction("Index", "Room");
+
         }
 
         public async Task<ActionResult> RenderImage(int id)

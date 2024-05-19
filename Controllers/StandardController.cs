@@ -32,7 +32,6 @@ namespace hotel_management.Controllers
             }
         }
 
-        // Shows all the items in the database
         public virtual IActionResult Create()
         {
             try

@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using hotel_management.Models;
 using System.Data.SqlClient;
 using System.Data;
 
@@ -14,6 +9,32 @@ namespace hotel_management.DAO
         public RoomsDAO()
         {
             Table = "Rooms";
+        }
+
+        public override void Update(RoomsViewModel model)
+        {
+            var p = new SqlParameter[]
+            {
+                new SqlParameter("RoomID", model.Id),
+                new SqlParameter("RoomNumber", model.RoomNumber),
+                new SqlParameter("RoomType", model.RoomType),
+                new SqlParameter("Rate", model.Rate),
+                new SqlParameter("Description", model.Description ?? (object)DBNull.Value),
+                new SqlParameter("IsAvailable", model.IsAvailable),
+                new SqlParameter("Picture", model.InternalImage ?? (object)DBNull.Value),
+            };
+
+            HelperDAO.ExecutaProc("spUpdate_" + Table, p);
+        }
+
+        public override void Delete(int id)
+        {
+            var p = new SqlParameter[]
+            {
+                new SqlParameter("RoomID", id),
+            };
+
+            HelperDAO.ExecutaProc("spDelete_" + Table, p);
         }
 
         public override RoomsViewModel Get(int id)
@@ -34,17 +55,16 @@ namespace hotel_management.DAO
 
         protected override SqlParameter[] CreateParameters(RoomsViewModel model)
         {
-            object imgByte = model.InternalImage;
-            if (imgByte == null)
-                imgByte = DBNull.Value;
+            object imgByte = model.InternalImage ?? (object)DBNull.Value;
 
-            SqlParameter[] parameters = new SqlParameter[5];
-            parameters[0] = new SqlParameter("@RoomNumber", model.RoomNumber);
-            parameters[1] = new SqlParameter("@RoomType", model.RoomType);
-            parameters[2] = new SqlParameter("@Rate", model.Rate);
-            parameters[3] = new SqlParameter("@Description", model.Description ?? (object)DBNull.Value);
-            parameters[4] = new SqlParameter("@IsAvailable", model.IsAvailable);
-            parameters[5] = new SqlParameter("@Picture", imgByte);
+            SqlParameter[] parameters = new SqlParameter[6];
+            parameters[0] = new SqlParameter("@RoomNumber", SqlDbType.Int) { Value = model.RoomNumber };
+            parameters[1] = new SqlParameter("@RoomType", SqlDbType.NVarChar, 50) { Value = model.RoomType };
+            parameters[2] = new SqlParameter("@Rate", SqlDbType.Decimal) { Value = model.Rate };
+            parameters[3] = new SqlParameter("@Description", SqlDbType.NVarChar, -1) { Value = model.Description ?? (object)DBNull.Value };
+            parameters[4] = new SqlParameter("@IsAvailable", SqlDbType.Bit) { Value = model.IsAvailable };
+            parameters[5] = new SqlParameter("@Picture", SqlDbType.VarBinary, -1) { Value = imgByte };
+
             return parameters;
         }
 

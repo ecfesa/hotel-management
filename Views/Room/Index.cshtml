@@ -6,6 +6,8 @@
     var roomInfo = ViewBag.RoomInfo as Dictionary<int, string>;
 }
 
+<a href="@Url.Action("NewRoom", "Room")">Adicionar quarto</a>
+
 <table class="table table-responsive">
     <tr>
         <th>Action</th>
@@ -14,13 +16,15 @@
         <th>Rate</th>
         <th>Description</th>
         <th>Availability</th>
+        <th>Image</th>
     </tr>
 
     @foreach (var item in Model)
     {
         <tr>
             <td>
-                BBBBBBBBBBBB
+                <button onclick="location.href='@Url.Action("EditRoom", "Room", new { id = item.Id })'" class="btn btn-primary">Update</button>
+                <button onclick="deleteRoom(@item.Id)" class="btn btn-danger">Delete</button>
             </td>
             <td>
                 @item.RoomNumber.ToString()
@@ -35,8 +39,28 @@
                 @item.Description
             </td>
             <td>
-                @item.IsAvailable ? "Yes" : "No"
+                @if (item.IsAvailable)
+                {
+                    <text>Yes</text>
+                }
+                else
+                {
+                    <text>No</text>
+                }
+            </td>
+            <td>
+                <img src="@Url.Action("RenderImage", "Room", new { id = item.Id })" class="img-responsive" width="200" />
             </td>
         </tr>
     }
 </table>
+
+<script>
+    function deleteRoom(roomId) {
+        if (confirm("Are you sure you want to delete this room?")) {
+            // Substitua a URL pelo caminho correto do método de exclusão na sua Controller
+            var url = '@Url.Action("DeleteRoom", "Room")?id=' + roomId;
+            window.location.href = url;
+        }
+    }
+</script>
