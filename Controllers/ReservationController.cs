@@ -17,7 +17,7 @@ namespace hotel_management.Controllers
             NeedsAuthentication = true;
         }
 
-        public IActionResult ViewReservations(){
+        public override IActionResult Index(){
 
             // Show all Reservations made
 
