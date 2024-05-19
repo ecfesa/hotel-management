@@ -24,9 +24,12 @@ namespace hotel_management.Controllers
             
             PersonsDAO DAO = new PersonsDAO();
 
+            model.PasswordHash = HashHelper.ComputeSha256Hash(model.PasswordHash);
+
             ValidateRegistry(model);
 
             if(ModelState.IsValid == true){
+
                 DAO.Insert(model);
                 return RedirectToAction("index", "Home");
             }

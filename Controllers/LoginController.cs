@@ -22,6 +22,17 @@ namespace hotel_management.Controllers
 
         public IActionResult Login(PersonViewModel model){
             
+            PersonsDAO DAO = new PersonsDAO();
+
+            if(DAO.LoginVerification(model.Username, HashHelper.ComputeSha256Hash(model.PasswordHash)))
+            {
+                HttpContext.Session.SetString("Logado", "true");
+                return RedirectToAction("index", "Home");
+            }
+            else
+            {
+                return View("Index");
+            } 
         }
     }
 }
