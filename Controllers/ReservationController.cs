@@ -12,14 +12,13 @@ namespace hotel_management.Controllers
 {
     public class ReservationController : StandardController<ReservationViewModel>
     {
-
         public ReservationController(){
             NeedsAuthentication = true;
         }
 
         public override IActionResult Index(){
 
-            // Show all Reservations made
+            // Shows all Reservations made
 
             List<ReservationViewModel> reservations_list = new List<ReservationViewModel>();
             ReservationsDAO reservationsDAO = new ReservationsDAO();
@@ -41,7 +40,7 @@ namespace hotel_management.Controllers
 
         public IActionResult NewReservation()
         {
-
+            // Shows the form to make a new reservation
             RoomsDAO roomsDAO = new RoomsDAO();
 
             try

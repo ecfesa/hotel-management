@@ -1,0 +1,81 @@
+﻿@using hotel_management.DAO
+@model RoomsViewModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@(Model.Id == 0 ? "Create Room" : "Edit Room")</title>
+    <link rel="stylesheet" type="text/css" href="~/Content/Site.css" />
+</head>
+<body>
+    <h2>@(Model.Id == 0 ? "Create Room" : "Edit Room")</h2>
+
+    <form asp-action="Upload" method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" asp-for="Id" />
+
+        <div class="form-group">
+            <label for="RoomNumber">Room Number</label>
+            <input type="number" asp-for="RoomNumber" class="form-control" required />
+            <span asp-validation-for="RoomNumber" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="RoomType">Room Type</label>
+            <input type="text" asp-for="RoomType" class="form-control" required />
+            <span asp-validation-for="RoomType" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="Rate">Rate</label>
+            <input type="text" asp-for="Rate" class="form-control" value="@Model.Rate.ToString("0.00")" required />
+            <span asp-validation-for="Rate" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="Description">Description</label>
+            <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="IsAvailable">Is Available</label>
+            <input type="checkbox" asp-for="IsAvailable" />
+            <span asp-validation-for="IsAvailable" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="InternalImage">Picture</label>
+            <input type="file" id="InternalImage" name="file" onchange="exibirImagem()" class="form-control" />
+            @if (Model.InternalImage != null)
+            {
+                <img id="imgPreview" src="@Url.Action("RenderImage", "Room", new { id = Model.Id })" class="img-responsive" width="200" />
+            }
+            else
+            {
+                <img id="imgPreview" class="img-responsive" width="200" />
+            }
+            <span asp-validation-for="InternalImage" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="@Url.Action("Index", "Room")" class="btn btn-secondary">Back to List</a>
+    </form>
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
+</body>
+</html>
+
+<script>
+    function exibirImagem() {
+        var oFReader = new FileReader();
+        oFReader.readAsDataURL(document.getElementById("InternalImage").files[0]);
+        oFReader.onload = function (oFREvent) {
+            document.getElementById("imgPreview").src = oFREvent.target.result;
+        };
+    }
+</script>
