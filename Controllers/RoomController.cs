@@ -118,7 +118,8 @@ namespace hotel_management.Controllers
 
             if (room == null || room.InternalImage == null)
             {
-                return NotFound();
+                var path = Path.Combine("img", "image-not-found-icon.webp");
+                return new VirtualFileResult(path, "image/webp");
             }
 
             return File(room.InternalImage, "image/png");

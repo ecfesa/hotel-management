@@ -57,8 +57,7 @@
 
 <script>
     function deleteRoom(roomId) {
-        if (confirm("Are you sure you want to delete this room?")) {
-            // Substitua a URL pelo caminho correto do método de exclusão na sua Controller
+        if (confirm("Tem certeza que quer deletar esse quarto?")) {
             var url = '@Url.Action("DeleteRoom", "Room")?id=' + roomId;
             window.location.href = url;
         }
