@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using hotel_management.Models;
 using hotel_management.DAO;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
@@ -12,9 +13,10 @@ namespace hotel_management.Controllers
     public class ReservationController : StandardController<ReservationViewModel>
     {
         public ReservationController(){
+            NeedsAuthentication = true;
         }
 
-        public IActionResult ViewReservations(){
+        public override IActionResult Index(){
 
             // Shows all Reservations made
 
@@ -39,10 +41,18 @@ namespace hotel_management.Controllers
         public IActionResult NewReservation()
         {
             // Shows the form to make a new reservation
+            RoomsDAO roomsDAO = new RoomsDAO();
 
             try
             {
-                return View("ReservationForm");
+                ReservationViewModel model = new ReservationViewModel();
+
+                model.IsPaid = false;
+                model.TotalAmount = 0;
+
+                model.AvailableRooms = roomsDAO.GetAvailableRooms();
+
+                return View("ReservationForm", model);
             }
             catch (Exception error)
             {
@@ -50,5 +60,15 @@ namespace hotel_management.Controllers
             }
         }
 
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            if (NeedsAuthentication && !HelperController.LoginSessionVerification(HttpContext.Session))
+                context.Result = RedirectToAction("Index", "Login");
+            else
+            {
+                ViewBag.UserLogin = true;
+                base.OnActionExecuting(context);
+            }
+        }
     }
 }

@@ -12,8 +12,8 @@ namespace hotel_management.Controllers
 {
     public class StandardController<T> : Controller where T : StandardViewModel
     {
-
         // Standard Controller for CRUD operations
+        protected bool NeedsAuthentication { get; set; } = true;
         protected StandardDAO<T>? DAO { get; set; }
 
         // Default view names
@@ -96,5 +96,8 @@ namespace hotel_management.Controllers
                 return View("Error", new ErrorViewModel(error.ToString()));
             }
         }
+
+        
+
     }
 }

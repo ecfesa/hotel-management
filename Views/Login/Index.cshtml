@@ -1,5 +1,6 @@
-﻿@{
-    ViewData["Title"] = "Hotelaria2 - Login XXXXXXXXXX";
+﻿@model PersonViewModel
+@{
+    ViewData["Title"] = "Login";
 }
 
 <div class="text-center">
@@ -7,22 +8,29 @@
     @{
         ViewData["Title"] = "Login";
     }
+    
+  <div class="flex flex-col items-center justify-between px-6 py-8 mx-auto lg:py-0">
+      <div class="w-full rounded-lg md:mt-0 sm:max-w-md xl:p-0">
+          <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+              <h1 class="text-xl font-bold leading-tight tracking-tight md:text-2xl border-b p-2">
+                  Realizar login em sua conta
+              </h1>
+              <form class="text-left space-y-4 md:space-y-6" asp-action="Login">
+                  <div>
+                      <label for="email" class="block mb-2 text-sm font-medium">Seu nome de usuário</label>
+                      <input asp-for="Username" type="text" name="username" id="email" class="bg-gray-50 border border-gray-400 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="johndoe" required>
+                  </div>
+                  <div>
+                      <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Sua senha</label>
+                      <input asp-for="PasswordHash" type="password" name="passwordhash" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-400 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " required>
+                  </div>
+                  <button type="submit" class="w-full text-white bg-blue-800 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Login</button>
+                  <p class="text-sm font-light text-gray-500 text-center">
+                      Ainda não tem uma conta? <a href="/register" class="font-medium text-gray-700 hover:underline">Registre-se</a>
+                  </p>
+              </form>
+          </div>
+      </div>
+  </div>
 
-    <h1>Login</h1>
-
-    <div class="row">
-        <div class="col-md-12">
-            <form method="post" asp-action="Index">
-                <div class="form-group">
-                    <label> Email </label>
-
-                <div class="form-group">
-                    <label> Password </label>
-                </div>
-
-                <button type="submit" class="btn-primary">Login</button>
-            </form>
-
-        </div>
-    </div>
 </div>

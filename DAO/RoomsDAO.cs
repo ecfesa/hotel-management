@@ -84,5 +84,19 @@ namespace hotel_management.DAO
             return room;
         }
 
+        public List<RoomsViewModel> GetAvailableRooms(){
+
+          List<RoomsViewModel> available_rooms = new List<RoomsViewModel>();
+
+          string sql = "SELECT * FROM " + Table + " WHERE IsAvailable = 1";
+
+          var table = HelperDAO.ExecuteSelect(sql, null);
+
+          foreach(DataRow item in table.Rows){
+            available_rooms.Add(MountModel(item));
+          }
+
+          return available_rooms;
+        }
     }
 }

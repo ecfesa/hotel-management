@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using hotel_management.DAO;
 
 namespace hotel_management.Models
 {
@@ -12,6 +13,7 @@ namespace hotel_management.Models
         public bool IsPaid { get; set; }
         public int CustomerID { get; set; }
         public int RoomID { get; set; }
+        public List<RoomsViewModel> AvailableRooms { get; set; }
 
     }
 }
