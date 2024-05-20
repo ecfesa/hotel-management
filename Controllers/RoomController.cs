@@ -1,6 +1,7 @@
 ﻿using hotel_management.DAO;
 using hotel_management.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace hotel_management.Controllers
 {
@@ -8,6 +9,7 @@ namespace hotel_management.Controllers
     {
         public RoomController()
         {
+            NeedsAuthentication = true;
         }
 
         public override IActionResult Index()
@@ -123,6 +125,17 @@ namespace hotel_management.Controllers
             }
 
             return File(room.InternalImage, "image/png");
+        }
+
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            if (NeedsAuthentication && !HelperController.LoginSessionVerification(HttpContext.Session))
+                context.Result = RedirectToAction("Index", "Login");
+            else
+            {
+                ViewBag.UserLogin = true;
+                base.OnActionExecuting(context);
+            }
         }
     }
 

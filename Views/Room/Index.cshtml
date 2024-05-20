@@ -2,64 +2,69 @@
 
 @model List<RoomsViewModel>
 @{
-    ViewData["Title"] = "Rooms";
+    ViewData["Title"] = "Quartos";
     var roomInfo = ViewBag.RoomInfo as Dictionary<int, string>;
 }
 
-<a href="@Url.Action("NewRoom", "Room")">Adicionar quarto</a>
+<div class="w-full flex justify-center">
+    <h1 class="text-4xl text-center m-4 p-2 border-b w-1/2">Quartos</h1>
+</div>
 
-<table class="table table-responsive">
-    <tr>
-        <th>Action</th>
-        <th>Number</th>
-        <th>Type</th>
-        <th>Rate</th>
-        <th>Description</th>
-        <th>Availability</th>
-        <th>Image</th>
-    </tr>
+<div class="flex justify-center mt-6 mb-6">
+    <a href="@Url.Action("NewRoom", "Room")" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Adicionar quarto</a>
+</div>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                <button onclick="location.href='@Url.Action("EditRoom", "Room", new { id = item.Id })'" class="btn btn-primary">Update</button>
-                <button onclick="deleteRoom(@item.Id)" class="btn btn-danger">Delete</button>
-            </td>
-            <td>
-                @item.RoomNumber.ToString()
-            </td>
-            <td>
-                @item.RoomType
-            </td>
-            <td>
-                @item.Rate.ToString()
-            </td>
-            <td>
-                @item.Description
-            </td>
-            <td>
-                @if (item.IsAvailable)
-                {
-                    <text>Yes</text>
-                }
-                else
-                {
-                    <text>No</text>
-                }
-            </td>
-            <td>
-                <img src="@Url.Action("RenderImage", "Room", new { id = item.Id })" class="img-responsive" width="200" />
-            </td>
-        </tr>
-    }
-</table>
+<div class="flex justify-center">
+    <table class="min-w-full bg-white border border-gray-300 text-center">
+        <thead>
+            <tr>
+                <th class="py-2 px-4 border-b">Action</th>
+                <th class="py-2 px-4 border-b">Number</th>
+                <th class="py-2 px-4 border-b">Type</th>
+                <th class="py-2 px-4 border-b">Rate</th>
+                <th class="py-2 px-4 border-b">Description</th>
+                <th class="py-2 px-4 border-b">Availability</th>
+                <th class="py-2 px-4 border-b">Image</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="hover:bg-gray-100 transition duration-150 ease-in-out">
+                    <td class="py-2 px-4 border-b">
+                        <button onclick="location.href='@Url.Action("EditRoom", "Room", new { id = item.Id })'" class="bg-blue-500 text-white font-bold py-1 px-4 rounded hover:bg-blue-700 transition duration-300">Update</button>
+                        <button onclick="deleteRoom(@item.Id)" class="bg-red-500 text-white font-bold py-1 px-4 rounded hover:bg-red-700 transition duration-300">Delete</button>
+                    </td>
+                    <td class="py-2 px-4 border-b">@item.RoomNumber.ToString()</td>
+                    <td class="py-2 px-4 border-b">@item.RoomType</td>
+                    <td class="py-2 px-4 border-b">@item.Rate.ToString("C")</td>
+                    <td class="py-2 px-4 border-b">@item.Description</td>
+                    <td class="py-2 px-4 border-b">
+                        @if (item.IsAvailable)
+                        {
+                            <span class="text-green-600 font-semibold">Yes</span>
+                        }
+                        else
+                        {
+                            <span class="text-red-600 font-semibold">No</span>
+                        }
+                    </td>
+                    <td class="py-2 px-4 border-b">
+                        <img src="@Url.Action("RenderImage", "Room", new { id = item.Id })" class="w-32 h-auto object-cover rounded-lg" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
-<script>
-    function deleteRoom(roomId) {
-        if (confirm("Tem certeza que quer deletar esse quarto?")) {
-            var url = '@Url.Action("DeleteRoom", "Room")?id=' + roomId;
-            window.location.href = url;
+@section Scripts {
+    <script>
+        function deleteRoom(roomId) {
+            if (confirm("Tem certeza que quer deletar esse quarto?")) {
+                var url = '@Url.Action("DeleteRoom", "Room")?id=' + roomId;
+                window.location.href = url;
+            }
         }
-    }
-</script>
+    </script>
+}
