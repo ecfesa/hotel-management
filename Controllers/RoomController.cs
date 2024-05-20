@@ -78,6 +78,7 @@ namespace hotel_management.Controllers
             return RedirectToAction("Index", "Room");
         }
 
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upload(IFormFile file, RoomsViewModel model)
         {
             RoomsDAO roomsDAO = new RoomsDAO();
