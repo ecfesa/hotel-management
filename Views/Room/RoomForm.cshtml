@@ -5,7 +5,7 @@
     ViewData["Title"] = "Quartos";
 }
 
-<div class="flex flex-col items-center justify-center min-h-screen p-4">
+<div class="flex flex-col items-center justify-center min-h-full p-4">
     <h2 class="text-4xl font-bold mb-8">@(Model.Id == 0 ? "Criar quarto" : "Alterar quarto")</h2>
 
     <form asp-action="Upload" method="post" enctype="multipart/form-data" class="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
@@ -13,25 +13,25 @@
 
         <input type="hidden" asp-for="Id" />
 
-        <div class="form-group mb-4">
+        <div class="mb-4">
             <label for="RoomNumber" class="block text-gray-700 font-bold mb-2">Room Number</label>
             <input type="number" asp-for="RoomNumber" class="form-control border border-gray-300 rounded w-full p-2" required />
             <span asp-validation-for="RoomNumber" class="text-red-500 block mt-1"></span>
         </div>
 
-        <div class="form-group mb-4">
+        <div class="mb-4">
             <label for="RoomType" class="block text-gray-700 font-bold mb-2">Room Type</label>
             <input type="text" asp-for="RoomType" class="form-control border border-gray-300 rounded w-full p-2" required />
             <span asp-validation-for="RoomType" class="text-red-500 block mt-1"></span>
         </div>
 
-        <div class="form-group mb-4">
+        <div class="mb-4">
             <label for="Rate" class="block text-gray-700 font-bold mb-2">Rate</label>
             <input type="text" asp-for="Rate" class="form-control border border-gray-300 rounded w-full p-2" value="@Model.Rate.ToString("0.00")" required />
             <span asp-validation-for="Rate" class="text-red-500 block mt-1"></span>
         </div>
 
-        <div class="form-group mb-4">
+        <div class="mb-4">
             <label for="Description" class="block text-gray-700 font-bold mb-2">Description</label>
             <textarea asp-for="Description" class="form-control border border-gray-300 rounded w-full p-2" rows="5"></textarea>
             <span asp-validation-for="Description" class="text-red-500 block mt-1"></span>
