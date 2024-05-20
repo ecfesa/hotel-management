@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using hotel_management.DAO;
 using hotel_management.Models;
+using hotel_management.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.WebEncoders.Testing;
@@ -24,10 +25,15 @@ namespace hotel_management.Controllers
         {
             
             PersonsDAO DAO = new PersonsDAO();
+            EmployeesDAO employeesDAO = new EmployeesDAO();
 
             if(DAO.LoginExists(model.Username, HashHelper.ComputeSha256Hash(model.PasswordHash)))
             {
                 HttpContext.Session.SetString("UserLogin", "true");
+
+                if((model.Username == AdminLogin.admin_login && model.PasswordHash == AdminLogin.admin_password) || employeesDAO.IsAdmin(model.Username, HashHelper.ComputeSha256Hash(model.PasswordHash)))
+                    HttpContext.Session.SetString("IsAdmin", "true");
+
                 return RedirectToAction("index", "Home");
             }
             else

@@ -19,5 +19,13 @@ namespace hotel_management.Controllers
                 return true;
         }
 
+        public static bool AdminSesstionVerification(ISession session)
+        {
+            if(session.GetString("IsAdmin") == null)
+                return false;
+            else
+                return true;
+        }
+
     }
 }

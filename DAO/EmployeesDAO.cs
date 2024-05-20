@@ -30,12 +30,22 @@ namespace hotel_management.DAO
         protected override EmployeeViewModel MountModel(DataRow row)
         {
             EmployeeViewModel employee = new EmployeeViewModel();
-            employee.Id = (int)row["UserID"];
-            employee.Username = row["Username"].ToString();
+            employee.Id = (int)row["EmployeeID"];
             employee.IsAdmin = (bool)row["IsAdmin"];
-            employee.PasswordHash = row["PasswordHash"].ToString();
             employee.PersonID = (int)row["PersonID"];
             return employee;
+        }
+
+        public bool IsAdmin(string username, string password){
+
+            SqlParameter[] parameters = new SqlParameter[2];
+            parameters[0] = new SqlParameter("@Username", username);
+            parameters[1] = new SqlParameter("@PasswordHash", password);
+
+            string sql = "SELECT e.EmployeeID, e.PersonID, e.IsAdmin FROM " + Table + " e INNER JOIN Persons p ON e.PersonID = p.PersonID WHERE e.IsAdmin = 1 AND p.Username = @Username AND p.PasswordHash = @PasswordHash";
+
+            return HelperDAO.ExecuteSelect(sql, parameters).Rows.Count >= 1;
+
         }
 
     }

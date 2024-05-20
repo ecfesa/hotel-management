@@ -1,0 +1,83 @@
+﻿@model PersonsEmployeesViewModel
+@{
+    ViewData["Title"] = "Admin Home";
+}
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Persons and Employees</title>
+    <style>
+        .container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .table-container {
+            width: 45%;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="table-container">
+            <h2>Persons</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>PersonID</th>
+                        <th>FirstName</th>
+                        <th>LastName</th>
+                        <th>Email</th>
+                        <th>PhoneNumber</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var person in Model.Persons)
+                    {
+                        <tr>
+                            <td>@person.Id</td>
+                            <td>@person.FirstName</td>
+                            <td>@person.LastName</td>
+                            <td>@person.Email</td>
+                            <td>@person.PhoneNumber</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="table-container">
+            <h2>Employees</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>PersonID</th>
+                        <th>IsAdmin</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var employee in Model.Employees)
+                    {
+                        <tr>
+                            <td>@employee.Id</td>
+                            <td>@employee.PersonID</td>
+                            <td>@employee.IsAdmin</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>

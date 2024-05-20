@@ -19,7 +19,6 @@ namespace hotel_management.Controllers
             return View("Error!");
         }
 
-
         public override IActionResult Save(PersonViewModel model, string operation){
             
             PersonsDAO DAO = new PersonsDAO();
