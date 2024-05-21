@@ -138,6 +138,21 @@ namespace hotel_management.Controllers
                 base.OnActionExecuting(context);
             }
         }
+
+        [HttpGet]
+        public IActionResult GetAvailableRooms()
+        {
+            RoomsDAO roomsDAO = new RoomsDAO();
+            List<RoomsViewModel> availableRooms = roomsDAO.GetAvailableRooms();
+            return Json(availableRooms);
+        }
+
+        public IActionResult GetAllRooms()
+        {
+            RoomsDAO roomsDAO = new RoomsDAO();
+            List<RoomsViewModel> allRooms = roomsDAO.GetAll();
+            return Json(allRooms);
+        }
     }
 
 }
