@@ -64,8 +64,7 @@ namespace hotel_management.Controllers
             }
         }
 
-        // Shows the item in the database
-        public IActionResult Edit(int id)
+        public virtual IActionResult Edit(int id)
         {
             try
             {
@@ -84,11 +83,11 @@ namespace hotel_management.Controllers
         }
 
         // Deletes the item in the database
-        public IActionResult Delete(int id)
+        public virtual IActionResult Delete(int id, string id_route)
         {
             try
             {
-                DAO.Delete(id);
+                DAO.Delete(id, id_route);
                 return RedirectToAction(IndexViewName);
             }
             catch (Exception error)

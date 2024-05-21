@@ -26,13 +26,13 @@ namespace hotel_management.DAO
             HelperDAO.ExecutaProc("spUpdate_" + Table, CreateParameters(model));
         }
 
-        public virtual void Delete(int id)
+        public virtual void Delete(int id, string id_route)
         {
 
             //TODO - Improve this delete method
 
             var p = new SqlParameter[]{
-                new SqlParameter("id", id),
+                new SqlParameter(id_route, id),
             };
             
             HelperDAO.ExecutaProc("spDelete_" + Table, p);

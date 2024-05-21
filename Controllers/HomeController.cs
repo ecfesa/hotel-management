@@ -20,6 +20,7 @@ namespace hotel_management.Controllers
         public IActionResult Index()
         {
             ViewBag.UserLogin = HelperController.LoginSessionVerification(HttpContext.Session);
+            ViewBag.IsAdmin = HelperController.AdminSesstionVerification(HttpContext.Session);
             return View();
         }
 

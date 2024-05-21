@@ -45,6 +45,10 @@
                         para acessar as opções
                     </label>
                 }
+
+                @if(ViewBag.IsAdmin == true){
+                    <li><a href="/admin" >Gerenciamento de Usuários</a></li>
+                }
             </ul>
         </div>
         <div class="grow h-full bg-slate-50 rounded-xl drop-shadow-xl">
