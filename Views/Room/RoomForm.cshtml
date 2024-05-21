@@ -1,74 +1,74 @@
 ﻿@using hotel_management.DAO
 @model RoomsViewModel
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title>@(Model.Id == 0 ? "Create Room" : "Edit Room")</title>
-    <link rel="stylesheet" type="text/css" href="~/Content/Site.css" />
-</head>
-<body>
-    <h2>@(Model.Id == 0 ? "Create Room" : "Edit Room")</h2>
+@{
+    ViewData["Title"] = "Quartos";
+}
 
-    <form asp-action="Upload" method="post" enctype="multipart/form-data">
+<div class="flex flex-col items-center justify-center min-h-full p-4">
+    <h2 class="text-4xl font-bold mb-8">@(Model.Id == 0 ? "Criar quarto" : "Alterar quarto")</h2>
+
+    <form asp-action="Upload" method="post" enctype="multipart/form-data" class="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
         @Html.AntiForgeryToken()
 
         <input type="hidden" asp-for="Id" />
 
-        <div class="form-group">
-            <label for="RoomNumber">Room Number</label>
-            <input type="number" asp-for="RoomNumber" class="form-control" required />
-            <span asp-validation-for="RoomNumber" class="text-danger"></span>
+        <div class="mb-4">
+            <label for="RoomNumber" class="block text-gray-700 font-bold mb-2">Room Number</label>
+            <input type="number" asp-for="RoomNumber" class="form-control border border-gray-300 rounded w-full p-2" required />
+            <span asp-validation-for="RoomNumber" class="text-red-500 block mt-1"></span>
         </div>
 
-        <div class="form-group">
-            <label for="RoomType">Room Type</label>
-            <input type="text" asp-for="RoomType" class="form-control" required />
-            <span asp-validation-for="RoomType" class="text-danger"></span>
+        <div class="mb-4">
+            <label for="RoomType" class="block text-gray-700 font-bold mb-2">Room Type</label>
+            <input type="text" asp-for="RoomType" class="form-control border border-gray-300 rounded w-full p-2" required />
+            <span asp-validation-for="RoomType" class="text-red-500 block mt-1"></span>
         </div>
 
-        <div class="form-group">
-            <label for="Rate">Rate</label>
-            <input type="text" asp-for="Rate" class="form-control" value="@Model.Rate.ToString("0.00")" required />
-            <span asp-validation-for="Rate" class="text-danger"></span>
+        <div class="mb-4">
+            <label for="Rate" class="block text-gray-700 font-bold mb-2">Rate</label>
+            <input type="text" asp-for="Rate" class="form-control border border-gray-300 rounded w-full p-2" value="@Model.Rate.ToString("0.00")" required />
+            <span asp-validation-for="Rate" class="text-red-500 block mt-1"></span>
         </div>
 
-        <div class="form-group">
-            <label for="Description">Description</label>
-            <textarea asp-for="Description" class="form-control" rows="5"></textarea>
-            <span asp-validation-for="Description" class="text-danger"></span>
+        <div class="mb-4">
+            <label for="Description" class="block text-gray-700 font-bold mb-2">Description</label>
+            <textarea asp-for="Description" class="form-control border border-gray-300 rounded w-full p-2" rows="5"></textarea>
+            <span asp-validation-for="Description" class="text-red-500 block mt-1"></span>
         </div>
 
-        <div class="form-group">
-            <label for="IsAvailable">Is Available</label>
-            <input type="checkbox" asp-for="IsAvailable" />
-            <span asp-validation-for="IsAvailable" class="text-danger"></span>
+        <div class="flex flex-row items-center mb-4">
+            <label for="IsAvailable" class="block text-gray-700 font-bold ">Is Available?</label>
+            <input type="checkbox" asp-for="IsAvailable" class="ml-4" />
+            <span asp-validation-for="IsAvailable" class="text-red-500 block mt-1"></span>
         </div>
 
-        <div class="form-group">
-            <label for="InternalImage">Picture</label>
-            <input type="file" id="InternalImage" name="file" onchange="exibirImagem()" class="form-control" />
-            @if (Model.InternalImage != null)
-            {
-                <img id="imgPreview" src="@Url.Action("RenderImage", "Room", new { id = Model.Id })" class="img-responsive" width="200" />
-            }
-            else
-            {
-                <img id="imgPreview" class="img-responsive" width="200" />
-            }
-            <span asp-validation-for="InternalImage" class="text-danger"></span>
+        <div class="mb-4">
+            <label for="InternalImage" class="block text-gray-700 font-bold mb-2">Picture</label>
+            <input type="file" id="InternalImage" name="file" onchange="exibirImagem()" class="form-control border border-gray-300 rounded w-full p-2" />
+            <div class="mt-4">
+                @if (Model.InternalImage != null)
+                {
+                    <img id="imgPreview" src="@Url.Action("RenderImage", "Room", new { id = Model.Id })" class="w-32 h-auto object-cover rounded-lg" />
+                }
+                else
+                {
+                    <img id="imgPreview" class="w-32 h-auto object-cover rounded-lg" />
+                }
+            </div>
+            <span asp-validation-for="InternalImage" class="text-red-500 block mt-1"></span>
         </div>
 
-        <button type="submit" class="btn btn-primary">Save</button>
-        <a href="@Url.Action("Index", "Room")" class="btn btn-secondary">Back to List</a>
+        <div class="flex justify-between mt-6">
+            <button type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-md shadow-lg hover:bg-blue-700 transition duration-300">Save</button>
+            <a href="@Url.Action("Index", "Room")" class="bg-gray-500 text-white font-bold py-2 px-4 rounded-md shadow-lg hover:bg-gray-700 transition duration-300">Back to List</a>
+        </div>
     </form>
+</div>
 
-    @section Scripts {
-        <partial name="_ValidationScriptsPartial" />
-    }
-</body>
-</html>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
 
 <script>
     function exibirImagem() {

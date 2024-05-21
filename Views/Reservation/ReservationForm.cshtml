@@ -4,7 +4,7 @@
 }
 
 <div class="w-full flex justify-center">
-    <h1 class="text-4xl text-center m-4 p-2 border-b w-1/2">Select your room</h1>
+    <h1 class="text-4xl text-center m-4 p-2 border-b w-1/2">Selecione o seu quarto</h1>
 </div>
 
 <div class="text-center">
@@ -16,9 +16,12 @@
                 <div class="flex flex-wrap justify-center">
                     @foreach (var room in Model.AvailableRooms)
                     {
-                        <div class="room-card m-4 bg-white rounded-lg shadow-xl max-w-sm relative overflow-hidden transition-transform transform hover:scale-105" data-room-id="@room.Id">
+                        <div class="room-card size-96 m-4 bg-white rounded-lg shadow-xl max-w-sm relative overflow-hidden transition-transform transform hover:scale-105" data-room-id="@room.Id">
                             <div class="relative">
-                                <img class="w-full rounded-t-lg block" src="https://imgs.search.brave.com/dzFoS0CuMepRMmqpgpKUjE7nbCTREqZWrJpcvZzVbBY/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9jZG4u/bGlnYWRvc2dhbWVz/LmNvbS9pbWFnZW5z/L3BvZ2NoYW1wLmpw/Zw" alt="Room image" />
+                                
+                                  <div class="w-full max-h-60 overflow-hidden">
+                                <img class="object-cover rounded-t-lg block" src="@Url.Action("RenderImage", "Room", new { id = room.Id })" alt="Room image" />
+                                </div>
                                 <div class="absolute -top-3 left-0 right-0 bottom-0 bg-gradient-to-t from-white via-white/25 via-25% to-transparent rounded-t-lg"></div>
                             </div>
                             <div class="p-4">
@@ -33,11 +36,7 @@
                 <input type="hidden" id="selectedRoomId" name="SelectedRoomID" value="" />
                 <input type="hidden" id="totalAmount" name="TotalAmount" value="" />
 
-                <div class="form-group">
-                    <input asp-for="TotalAmount" class="form-control" />
-                </div>
-
-                <button type="submit" class="btn-primary">Confirm</button>
+                <button type="submit" id="confirmButton" class="hidden sticky bottom-4 left-0 right-0 mx-auto m-4 w-1/2 bg-blue-500 text-white py-2 rounded-lg text-lg">Confirmar</button>
             </form>
         </div>
     </div>
@@ -47,11 +46,15 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const roomCards = document.querySelectorAll('.room-card');
+            const confirmButton = document.getElementById('confirmButton');
+
             roomCards.forEach(card => {
                 card.addEventListener('click', function () {
                     roomCards.forEach(c => c.classList.remove('selected')); // Remove selected class from all cards
                     card.classList.add('selected'); // Add selected class to the clicked card
                     document.getElementById('selectedRoomId').value = card.dataset.roomId; // Set hidden input value
+
+                    confirmButton.classList.remove('hidden'); // Show confirm button
                 });
             });
         });

@@ -1,5 +1,6 @@
 using System.Data.SqlClient;
 using System.Data;
+using System.Text.Json;
 
 namespace hotel_management.DAO
 {
@@ -21,7 +22,15 @@ namespace hotel_management.DAO
                 new SqlParameter("Rate", model.Rate),
                 new SqlParameter("Description", model.Description ?? (object)DBNull.Value),
                 new SqlParameter("IsAvailable", model.IsAvailable),
-                new SqlParameter("Picture", model.InternalImage ?? (object)DBNull.Value),
+                // Explicitly setting the SqlDbType and Size for the Picture parameter
+                // Necessary to avoid a bug when the picture is null  
+                new SqlParameter
+                {
+                    ParameterName = "Picture",
+                    SqlDbType = SqlDbType.VarBinary,
+                    Size = -1,
+                    Value = (object)model.InternalImage ?? DBNull.Value
+                }
             };
 
             HelperDAO.ExecutaProc("spUpdate_" + Table, p);

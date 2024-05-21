@@ -1,6 +1,7 @@
 ﻿using hotel_management.DAO;
 using hotel_management.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace hotel_management.Controllers
 {
@@ -8,6 +9,7 @@ namespace hotel_management.Controllers
     {
         public RoomController()
         {
+            NeedsAuthentication = true;
         }
 
         public override IActionResult Index()
@@ -76,6 +78,7 @@ namespace hotel_management.Controllers
             return RedirectToAction("Index", "Room");
         }
 
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upload(IFormFile file, RoomsViewModel model)
         {
             RoomsDAO roomsDAO = new RoomsDAO();
@@ -118,10 +121,22 @@ namespace hotel_management.Controllers
 
             if (room == null || room.InternalImage == null)
             {
-                return NotFound();
+                var path = Path.Combine("img", "image-not-found-icon.webp");
+                return new VirtualFileResult(path, "image/webp");
             }
 
             return File(room.InternalImage, "image/png");
+        }
+
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            if (NeedsAuthentication && !HelperController.LoginSessionVerification(HttpContext.Session))
+                context.Result = RedirectToAction("Index", "Login");
+            else
+            {
+                ViewBag.UserLogin = true;
+                base.OnActionExecuting(context);
+            }
         }
     }
 
