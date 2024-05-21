@@ -1,0 +1,55 @@
+@model PersonViewModel
+@{
+    ViewData["Title"] = "Person Edit";
+}
+
+<div class="flex flex-col items-center justify-center min-h-full p-4">
+    <h2 class="text-4xl font-bold mb-8">@(Model.Id == 0 ? "Create Person" : "Edit Person")</h2>
+
+    <form asp-action="SavePerson" method="post" class="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-4">
+            <label for="FirstName" class="block text-gray-700 font-bold mb-2">First Name</label>
+            <input type="text" asp-for="FirstName" class="form-control border border-gray-300 rounded w-full p-2" required />
+            <span asp-validation-for="FirstName" class="text-red-500 block mt-1"></span>
+        </div>
+
+        <div class="mb-4">
+            <label for="LastName" class="block text-gray-700 font-bold mb-2">Last Name</label>
+            <input type="text" asp-for="LastName" class="form-control border border-gray-300 rounded w-full p-2" required />
+            <span asp-validation-for="LastName" class="text-red-500 block mt-1"></span>
+        </div>
+
+        <div class="mb-4">
+            <label for="Email" class="block text-gray-700 font-bold mb-2">Email</label>
+            <input type="email" asp-for="Email" class="form-control border border-gray-300 rounded w-full p-2" required />
+            <span asp-validation-for="Email" class="text-red-500 block mt-1"></span>
+        </div>
+
+        <div class="mb-4">
+            <label for="Username" class="block text-gray-700 font-bold mb-2">Username</label>
+            <input type="text" asp-for="Username" class="form-control border border-gray-300 rounded w-full p-2" required />
+            <span asp-validation-for="Username" class="text-red-500 block mt-1"></span>
+        </div>
+
+        <div class="mb-4">
+            <label for="PasswordHash" class="block text-gray-700 font-bold mb-2">New Password</label>
+            <input type="password" asp-for="PasswordHash" class="form-control border border-gray-300 rounded w-full p-2" required />
+            <span asp-validation-for="PasswordHash" class="text-red-500 block mt-1"></span>
+        </div>
+
+        <div class="mb-4">
+            <label for="PhoneNumber" class="block text-gray-700 font-bold mb-2">Phone Number</label>
+            <input type="text" asp-for="PhoneNumber" class="form-control border border-gray-300 rounded w-full p-2" />
+            <span asp-validation-for="PhoneNumber" class="text-red-500 block mt-1"></span>
+        </div>
+
+        <div class="flex justify-between mt-6">
+            <button type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-md shadow-lg hover:bg-blue-700 transition duration-300">Save</button>
+            <a href="@Url.Action("Index", "Admin")" class="bg-gray-500 text-white font-bold py-2 px-4 rounded-md shadow-lg hover:bg-gray-700 transition duration-300">Back to List</a>
+        </div>
+    </form>
+</div>

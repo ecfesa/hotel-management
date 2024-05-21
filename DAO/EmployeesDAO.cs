@@ -19,11 +19,18 @@ namespace hotel_management.DAO
 
         protected override SqlParameter[] CreateParameters(EmployeeViewModel model)
         {
-            SqlParameter[] parameters = new SqlParameter[4];
-            parameters[0] = new SqlParameter("@Username", model.Username);
+            SqlParameter[] parameters = new SqlParameter[2];
+            parameters[0] = new SqlParameter("@IsAdmin", model.IsAdmin);
+            parameters[1] = new SqlParameter("@PersonID", model.PersonID);
+            return parameters;
+        }
+
+        protected SqlParameter[] CreateParameters_toUpdate(EmployeeViewModel model)
+        {
+            SqlParameter[] parameters = new SqlParameter[3];
+            parameters[0] = new SqlParameter("@EmployeeId", model.Id);
             parameters[1] = new SqlParameter("@IsAdmin", model.IsAdmin);
-            parameters[2] = new SqlParameter("@PasswordHash", model.PasswordHash);
-            parameters[3] = new SqlParameter("@PersonID", model.PersonID);
+            parameters[2] = new SqlParameter("@PersonID", model.PersonID);
             return parameters;
         }
 
@@ -46,6 +53,11 @@ namespace hotel_management.DAO
 
             return HelperDAO.ExecuteSelect(sql, parameters).Rows.Count >= 1;
 
+        }
+
+        public override void Insert(EmployeeViewModel model)
+        {
+            HelperDAO.ExecutaProc("spInsert_" + Table, CreateParameters(model));
         }
 
     }

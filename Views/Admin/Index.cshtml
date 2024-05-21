@@ -20,11 +20,22 @@
             margin: 20px 0;
         }
         th, td {
+            text-align: center;
             border: 1px solid #ddd;
             padding: 8px;
         }
         th {
             background-color: #f2f2f2;
+        }
+        .button {
+            border: none;
+            padding: 5px 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -32,9 +43,15 @@
     <div class="container">
         <div class="table-container">
             <h2>Persons</h2>
+
+            <div>
+                <input type="text" id="searchInput" placeholder="Search by name..." onkeyup="searchPersons()">
+            </div>
+
             <table>
                 <thead>
                     <tr>
+                        <th>Actions</th>
                         <th>PersonID</th>
                         <th>FirstName</th>
                         <th>LastName</th>
@@ -42,10 +59,17 @@
                         <th>PhoneNumber</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="personsTableBody">
                     @foreach (var person in Model.Persons)
                     {
                         <tr>
+                            <td>
+                                <button class="button" onclick="editPerson(@person.Id)">Editar</button>
+                                <br>
+                                <button class="button" onclick="deletePerson(@person.Id)">Delete</button>
+                                <br>
+                                <button class="button" onclick="turnToEmployee(@person.Id)">Turn into Employee</button>
+                            </td>
                             <td>@person.Id</td>
                             <td>@person.FirstName</td>
                             <td>@person.LastName</td>
@@ -59,25 +83,130 @@
 
         <div class="table-container">
             <h2>Employees</h2>
+
             <table>
                 <thead>
                     <tr>
+                        <th>Actions</th>
                         <th>ID</th>
                         <th>PersonID</th>
-                        <th>IsAdmin</th>
+                        <th></th>
+                        <th>IsAdmin?</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var employee in Model.Employees)
                     {
                         <tr>
+                            <td>
+                                <button class="button" onclick="deleteEmployee(@employee.Id)">Delete Employee</button>
+                            </td>
                             <td>@employee.Id</td>
                             <td>@employee.PersonID</td>
-                            <td>@employee.IsAdmin</td>
+                            <td></td>
+                            <td>
+
+                                @if(employee.IsAdmin){
+                                <input type="checkbox" 
+                                    data-person-id="@employee.PersonID" 
+                                    data-employee-id="@employee.Id" onchange="updateAdminStatus(this)" checked>
+                                }
+                                else{
+                                    <input type="checkbox" 
+                                    data-person-id="@employee.PersonID" 
+                                    data-employee-id="@employee.Id" onchange="updateAdminStatus(this)">
+                                }
+
+                            </td>
                         </tr>
                     }
                 </tbody>
             </table>
+            
         </div>
     </div>
+
+
+     <script>
+        function deletePerson(id)
+        {
+            if (confirm('Confirma a deleção da Pessoa?'))
+                location.href = '/Admin/DeletePerson?id=' + id;
+        }
+
+        function deleteEmployee(id){
+            if (confirm('Confirma a deleção do funcionario?'))
+                location.href = '/Admin/DeleteEmployee?id=' + id;
+        }
+
+
+        function editPerson(id)
+        {
+            location.href = '/Admin/EditPerson?id=' + id;
+        }
+
+        function turnToEmployee(id)
+        {
+            location.href = '/Admin/TurnToEmployee?id=' + id;
+        }
+
+        function updateAdminStatus(checkbox) {
+            var employeeId = $(checkbox).data('employee-id');
+            var personId = $(checkbox).data('person-id');
+            var isAdmin = checkbox.checked;
+
+            $.ajax({
+                url: '/Admin/UpdateAdminStatus',
+                type: 'POST',
+                data: {
+                    id: employeeId,
+                    isAdmin: isAdmin,
+                    PersonId: personId
+                },
+                success: function(response) {
+                    // Handle success
+                    console.log('Status updated successfully.');
+                },
+                error: function(xhr, status, error) {
+                    // Handle error
+                    console.error('Error updating status: ' + error);
+                }
+            });
+        }
+
+        function searchPersons() {
+            var searchQuery = document.getElementById('searchInput').value;
+            $.ajax({
+                url: '/Admin/SearchPersons',
+                type: 'GET',
+                data: { query: searchQuery },
+                success: function(data) {
+                    var tbody = document.getElementById('personsTableBody');
+                    tbody.innerHTML = '';
+                    data.forEach(function(person) {
+                        var row = '<tr>' +
+                            '<td>' +
+                            '<button class="button" onclick="editPerson(' + person.id + ')">Editar</button>' +
+                            '<br>' +
+                            '<button class="button" onclick="deletePerson(' + person.id + ')">Delete</button>' +
+                            '<br>' +
+                            '<button class="button" onclick="turnToEmployee(' + person.id + ')">Turn into Employee</button>' +
+                            '</td>' +
+                            '<td>' + person.id + '</td>' +
+                            '<td>' + person.firstName + '</td>' +
+                            '<td>' + person.lastName + '</td>' +
+                            '<td>' + person.email + '</td>' +
+                            '<td>' + person.phoneNumber + '</td>' +
+                            '</tr>';
+                        tbody.innerHTML += row;
+
+                        console.log(person);
+                    });
+                },
+                error: function(error) {
+                    console.error('Error fetching search results:', error);
+                }
+            });
+        }
+    </script>
 </body>
