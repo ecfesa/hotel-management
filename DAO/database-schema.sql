@@ -261,7 +261,8 @@ CREATE PROCEDURE spUpdate_Rooms
     @RoomType VARCHAR(50),
     @Rate DECIMAL(10, 2),
     @Description TEXT,
-    @IsAvailable BIT
+    @IsAvailable BIT,
+    @Picture varbinary(max)
 AS
 BEGIN
     UPDATE Rooms
