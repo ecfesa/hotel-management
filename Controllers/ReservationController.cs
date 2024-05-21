@@ -21,11 +21,17 @@ namespace hotel_management.Controllers
             // Shows all Reservations made
 
             List<ReservationViewModel> reservations_list = new List<ReservationViewModel>();
+
             ReservationsDAO reservationsDAO = new ReservationsDAO();
             RoomsDAO roomsDAO = new RoomsDAO();
+            EmployeesDAO employeesDAO = new EmployeesDAO();
 
             ViewBag.RoomInfo = new Dictionary<int, string>();
-            reservations_list = reservationsDAO.GetAll();
+
+            if(HelperController.AdminSesstionVerification(HttpContext.Session) || HelperController.EmployeeSesstionVerification(HttpContext.Session))
+                reservations_list = reservationsDAO.GetAll();
+            else
+                reservations_list = reservationsDAO.GetAllFromCustomer(HelperController.ActualUserID(HttpContext.Session));
 
             foreach(var item in reservations_list){
                 var room = roomsDAO.Get(item.RoomID);
@@ -49,6 +55,7 @@ namespace hotel_management.Controllers
 
                 model.IsPaid = false;
                 model.TotalAmount = 0;
+                model.PersonID = HelperController.ActualUserID(HttpContext.Session);
 
                 model.AvailableRooms = roomsDAO.GetAvailableRooms();
 
@@ -58,6 +65,15 @@ namespace hotel_management.Controllers
             {
                 return View("Error", new ErrorViewModel(error.ToString()));
             }
+        }
+
+        public IActionResult SaveReservation(ReservationViewModel model){
+
+            ReservationsDAO DAO = new ReservationsDAO();
+
+            DAO.Insert(model);
+
+            return RedirectToAction("Index", "Home");
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)

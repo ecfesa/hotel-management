@@ -55,6 +55,18 @@ namespace hotel_management.DAO
 
         }
 
+        public bool IsEmployee(string username, string password){
+
+            SqlParameter[] parameters = new SqlParameter[2];
+            parameters[0] = new SqlParameter("@Username", username);
+            parameters[1] = new SqlParameter("@PasswordHash", password);
+
+            string sql = "SELECT e.EmployeeID, e.PersonID FROM " + Table + " e INNER JOIN Persons p ON e.PersonID = p.PersonID WHERE p.Username = @Username AND p.PasswordHash = @PasswordHash";
+
+            return HelperDAO.ExecuteSelect(sql, parameters).Rows.Count >= 1;
+
+        }
+
         public override void Insert(EmployeeViewModel model)
         {
             HelperDAO.ExecutaProc("spInsert_" + Table, CreateParameters(model));

@@ -36,7 +36,7 @@ namespace hotel_management.DAO
             HelperDAO.ExecutaProc("spUpdate_" + Table, p);
         }
 
-        public override void Delete(int id)
+        public void Delete(int id)
         {
             var p = new SqlParameter[]
             {

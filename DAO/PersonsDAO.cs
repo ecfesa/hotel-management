@@ -73,6 +73,17 @@ namespace hotel_management.DAO
             return HelperDAO.ExecuteSelect(sql, parameters).Rows.Count >= 1;
         }
 
+        public int LoginExists(string username, string password, bool return_ID){
+
+            SqlParameter[] parameters = new SqlParameter[2];
+            parameters[0] = new SqlParameter("@Username", username);
+            parameters[1] = new SqlParameter("@PasswordHash", password);
+
+            string sql = "SELECT * FROM " + Table + " WHERE Username = @Username AND PasswordHash = @PasswordHash";
+
+            return (int)HelperDAO.ExecuteSelect(sql, parameters).Rows[0]["PersonID"];
+        }
+
         public List<PersonViewModel> GetSearchPersons(string query){
 
             List<PersonViewModel> persons = new List<PersonViewModel>();
