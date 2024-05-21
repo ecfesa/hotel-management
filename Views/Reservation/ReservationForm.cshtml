@@ -16,11 +16,11 @@
                 <div class="flex flex-wrap justify-center">
                     @foreach (var room in Model.AvailableRooms)
                     {
-                        <div class="room-card size-96 m-4 bg-white rounded-lg shadow-xl max-w-sm relative overflow-hidden transition-transform transform hover:scale-105" data-room-id="@room.Id">
+                        <div class="room-card xl:size-96 sm:size-52 md:size-64 lg:size-80 m-4 bg-white rounded-lg shadow-xl max-w-sm relative overflow-hidden transition-transform transform hover:scale-105" data-room-id="@room.Id">
                             <div class="relative">
                                 
-                                  <div class="w-full max-h-60 overflow-hidden">
-                                <img class="object-cover rounded-t-lg block" src="@Url.Action("RenderImage", "Room", new { id = room.Id })" alt="Room image" />
+                                <div class="w-full max-h-60 overflow-hidden">
+                                    <img class="object-cover rounded-t-lg block" src="@Url.Action("RenderImage", "Room", new { id = room.Id })" alt="Room image" />
                                 </div>
                                 <div class="absolute -top-3 left-0 right-0 bottom-0 bg-gradient-to-t from-white via-white/25 via-25% to-transparent rounded-t-lg"></div>
                             </div>
