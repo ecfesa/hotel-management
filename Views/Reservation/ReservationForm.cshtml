@@ -72,7 +72,8 @@
             // Initialize Flatpickr
             flatpickr(dateRangeInput, {
                 mode: "range",
-                dateFormat: "Y-m-d"
+                dateFormat: "Y-m-d",
+                minDate: "today"
             });
 
             roomCards.forEach(card => {
