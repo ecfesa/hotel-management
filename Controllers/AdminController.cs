@@ -44,7 +44,7 @@ namespace hotel_management.Controllers
         {
             PersonsDAO DAO = new PersonsDAO();
 
-            DAO.Delete(id, "@PersonID");
+            DAO.Delete(id, "PersonID");
 
             return RedirectToAction("Index", "Admin");
         }
@@ -53,7 +53,7 @@ namespace hotel_management.Controllers
 
             EmployeesDAO DAO = new EmployeesDAO();
 
-            DAO.Delete(id, "@EmployeeID");
+            DAO.Delete(id, "EmployeeID");
 
             return RedirectToAction("Index", "Admin");
         }
