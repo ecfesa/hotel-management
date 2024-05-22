@@ -40,6 +40,8 @@ CREATE TABLE Reservations (
     IsPaid BIT NOT NULL DEFAULT 0,
     PersonID INT,
     RoomID INT,
+    StartDate DATE,
+    EndDate DATE,
     FOREIGN KEY (PersonID) REFERENCES Persons(PersonID),
     FOREIGN KEY (RoomID) REFERENCES Rooms(RoomID),
     -- Add any other relevant fields
@@ -54,11 +56,10 @@ CREATE TABLE CheckIns (
     FOREIGN KEY (ReservationID) REFERENCES Reservations(ReservationID)
 );
 
-/*
-
-STORED PROCEDURES
 
 ----------------------------------------------------------------------
+
+-- STORED PROCEDURES
 
 -- Insert into Persons
 CREATE PROCEDURE spInsert_Persons
@@ -239,11 +240,13 @@ CREATE PROCEDURE spInsert_Reservations
     @TotalAmount DECIMAL(10, 2),
     @IsPaid BIT,
     @PersonID INT,
-    @RoomID INT
+    @RoomID INT,
+    @StartDate DATE,
+    @EndDate DATE
 AS
 BEGIN
-    INSERT INTO Reservations (TotalAmount, IsPaid, PersonID, RoomID)
-    VALUES (@TotalAmount, @IsPaid, @PersonID, @RoomID);
+    INSERT INTO Reservations (TotalAmount, IsPaid, PersonID, RoomID, StartDate, EndDate)
+    VALUES (@TotalAmount, @IsPaid, @PersonID, @RoomID, @StartDate, @EndDate);
 END
 GO
 
@@ -346,7 +349,7 @@ GO
 
 ----------------------------------------------------------------------
 
-TRIGGERS
+-- TRIGGERS
 
 CREATE TRIGGER trg_DeletePerson
 ON Persons
@@ -392,4 +395,3 @@ BEGIN
 
 END;
 
-*/

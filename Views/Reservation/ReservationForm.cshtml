@@ -1,6 +1,6 @@
 @model ReservationViewModel
 @{
-    ViewData["Title"] = "Hotelaria2 - New Registration";
+    ViewData["Title"] = "New Reservation";
 }
 
 <div class="w-full flex justify-center">
@@ -35,39 +35,87 @@
                 <input asp-for="PersonID" type="hidden" id="personID" name="PersonID" value="@Model.PersonID" />
                 <input asp-for="RoomID" type="hidden" id="selectedRoomId" name="RoomID" value="" />
                 <input asp-for="TotalAmount" type="hidden" id="totalAmount" name="TotalAmount" value="" />
+                <input asp-for="StartDate" type="hidden" id="startDate" name="StartDate" value="" />
+                <input asp-for="EndDate" type="hidden" id="endDate" name="EndDate" value="" />
 
-                <button type="submit" id="confirmButton" class="hidden sticky bottom-4 left-0 right-0 mx-auto m-4 w-1/2 bg-blue-500 text-white py-2 rounded-lg text-lg">Confirmar</button>
+                <button type="button" id="confirmButton" class="hidden sticky bottom-4 left-0 right-0 mx-auto m-4 w-1/2 bg-blue-500 text-white py-2 rounded-lg text-lg">Confirmar</button>
             </form>
         </div>
     </div>
 </div>
 
-@section Scripts {
+<div id="dateModal" class="fixed inset-0 flex items-center justify-center hidden bg-gray-800 bg-opacity-75">
+    <div class="bg-white rounded-lg p-6">
+        <h2 class="text-2xl mb-4">Select Reservation Dates</h2>
+        <div>
+            <label for="dateRange" class="block text-lg mb-2">Date Range:</label>
+            <input id="dateRange" type="text" class="form-control" />
+        </div>
+        <div class="mt-4">
+            <button type="button" id="saveDatesButton" class="bg-blue-500 text-white py-2 px-4 rounded">Save Dates</button>
+        </div>
+    </div>
+</div>
 
+@section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const roomCards = document.querySelectorAll('.room-card');
             const confirmButton = document.getElementById('confirmButton');
+            const dateModal = document.getElementById('dateModal');
+            const saveDatesButton = document.getElementById('saveDatesButton');
+            const dateRangeInput = document.getElementById('dateRange');
+            let selectedRoomId;
+
+            // Initialize Flatpickr
+            flatpickr(dateRangeInput, {
+                mode: "range",
+                dateFormat: "Y-m-d"
+            });
 
             roomCards.forEach(card => {
                 card.addEventListener('click', function () {
                     roomCards.forEach(c => c.classList.remove('selected')); // Remove selected class from all cards
                     card.classList.add('selected'); // Add selected class to the clicked card
-                    document.getElementById('selectedRoomId').value = card.dataset.roomId; // Set hidden input value
+                    selectedRoomId = card.dataset.roomId; // Set selected room ID
 
                     confirmButton.classList.remove('hidden'); // Show confirm button
                 });
             });
+
+            confirmButton.addEventListener('click', function () {
+                if (selectedRoomId) {
+                    dateModal.classList.remove('hidden'); // Show date modal
+                }
+            });
+
+            saveDatesButton.addEventListener('click', function () {
+                const dates = dateRangeInput._flatpickr.selectedDates;
+
+                if (dates.length === 2) {
+                    const startDate = dates[0].toISOString().split('T')[0];
+                    const endDate = dates[1].toISOString().split('T')[0];
+
+                    document.getElementById('selectedRoomId').value = selectedRoomId;
+                    document.getElementById('startDate').value = startDate;
+                    document.getElementById('endDate').value = endDate;
+
+                    document.getElementById('reservationForm').submit();
+                } else {
+                    alert('Please select a valid date range.');
+                }
+            });
         });
 
+        const style = document.createElement('style');
+        style.innerHTML = `
+            .room-card.selected {
+                border: 2px solid #007bff;
+                transform: scale(1.05);
+            }
+        `;
+        document.head.appendChild(style);
     </script>
-
-    <style>
-        .room-card.selected {
-            border: 2px solid #007bff;
-            transform: scale(1.05);
-        }
-    </style>
 }

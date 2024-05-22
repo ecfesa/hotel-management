@@ -21,6 +21,8 @@
                 <th class="py-2 px-4 border-b">Pessoa que Reservou</th>
                 <th class="py-2 px-4 border-b">ID do Quarto</th>
                 <th class="py-2 px-4 border-b">Tipo do Quarto</th>
+                <th class="py-2 px-4 border-b">Data de Início</th>
+                <th class="py-2 px-4 border-b">Data de Fim</th>
                 <th class="py-2 px-4 border-b">Ação</th>
             </tr>
         </thead>
@@ -45,6 +47,12 @@
                     </td>
                     <td class="py-2 px-4 border-b">
                         @roomInfo[item.RoomID]
+                    </td>
+                    <td class="py-2 px-4 border-b">
+                        @item.StartDate?.ToString("yyyy-MM-dd")
+                    </td>
+                    <td class="py-2 px-4 border-b">
+                        @item.EndDate?.ToString("yyyy-MM-dd")
                     </td>
                     <td class="py-2 px-4 border-b">
                         <button onclick="deleteReservation(@item.Id)" class="bg-red-500 text-white font-bold py-1 px-4 rounded hover:bg-red-700 transition duration-300">Deletar Reserva</button>
