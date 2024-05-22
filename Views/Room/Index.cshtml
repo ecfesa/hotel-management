@@ -21,7 +21,7 @@
 </div>
 
 <div class="flex justify-center">
-    <table class="min-w-full bg-white border border-gray-300 text-center">
+    <table id="roomsTable" class="min-w-full bg-white border border-gray-300 text-center">
         <thead>
             <tr>
                 <th class="py-2 px-4 border-b">Number</th>
@@ -52,7 +52,7 @@
                     <td class="py-2 px-4 border-b">@item.RoomType</td>
                     <td class="py-2 px-4 border-b">@item.Rate.ToString("C")</td>
                     <td class="py-2 px-4 border-b">@item.Description</td>
-                    <td class="py-2 px-4 border-b">
+                    <td class="py-2 px-4 border-b availability-cell" data-room-id="@item.Id">
                         @if (item.IsAvailable)
                         {
                             <span class="text-green-600 font-semibold">Disponível</span>
@@ -76,6 +76,7 @@
 </div>
 
 @section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         function deleteRoom(roomId) {
             if (confirm("Tem certeza que quer deletar esse quarto?")) {
@@ -83,5 +84,34 @@
                 window.location.href = url;
             }
         }
+
+        function updateAvailability() {
+            $.ajax({
+                url: '@Url.Action("GetAllRooms", "Room")',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    console.log('Dados recebidos:', data);
+                    $('.availability-cell').each(function () {
+                        var roomId = parseInt($(this).data('room-id'));
+                        var room = data.find(r => r.id === roomId);
+                        if (room) {
+                            var availabilityText = room.isAvailable ? '<span class="text-green-600 font-semibold">Yes</span>' : '<span class="text-red-600 font-semibold">No</span>';
+                            console.log('Atualizando quarto', roomId, 'para', availabilityText);
+                            $(this).html(availabilityText);
+                        }
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error('Erro ao verificar a disponibilidade dos quartos:', error);
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            setInterval(updateAvailability, 5000);
+
+            updateAvailability();
+        });
     </script>
 }

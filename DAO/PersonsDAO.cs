@@ -108,8 +108,6 @@ namespace hotel_management.DAO
 
         public PersonViewModel Get(int? id)
         {
-            // Implementação do método de consulta por id
-
             var p = new SqlParameter[]{
                 new SqlParameter("PersonId", id),
             };
