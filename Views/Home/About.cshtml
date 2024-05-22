@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Sobre";
+}
+
+<div class="flex flex-col items-center">
+    <h1 class="text-center text-2xl font-thin m-4 border-b w-1/4">Sobre o projeto</h1>
+    <div class="text-center">
+        <p>O projeto foi feito para a entrega do trabalho de N1 de Linguagens de Programação 1.</p>
+        <p><br>Foram utilizados <b>ASP.NET MVC</b> e um banco de dados em <b>SQL Server</b>.</p>
+        <p>Adicionalmente, foi usado o <i>framework</i> <b>Tailwind CSS</b> para estilização do <i>Front-end</i>.</p>
+    </div>
+
+    </br>
+    </br>
+
+    <div class="bg-white p-8 rounded shadow-md w-1/2">
+        <h1 class="text-center text-2xl font-thin border-b mb-4">Integrantes (EC5)</h1>
+        <ul class="list-disc pl-5">
+            <li class="mb-2">
+                <span class="font-semibold">Lucas Santos</span> (RA 081220017)
+            </li>
+            <li class="mb-2">
+                <span class="font-semibold">Rhian Rodrigues</span> (RA 081220031)
+            </li>
+            <li class="mb-2">
+                <span class="font-semibold">Marcelo Medeiros</span> (RA 082220035)
+            </li>
+        </ul>
+    </div>
+
+    </br>
+    </br>
+
+    <footer class="w-full flex flex-col items-center">
+        <button onclick="location.href='@Url.Action("Index", "Home")'" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition duration-300">
+            Voltar para a página inicial
+        </button>
+    </footer>
+</div>

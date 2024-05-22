@@ -12,15 +12,10 @@
 
     <img class="size-96 m-8 rounded-xl drop-shadow-xl border-y-8 border-x-4 border-gray-600 border-double hover:drop-shadow-[0_35px_35px_rgba(0,0,0,0.25)] transition-all duration-500 ease-in-out" src="/img/hotel-lobby.webp">
 
-  <footer class="w-full flex flex-col items-center">
-    <h1 class="text-center text-2xl font-thin m-4 border-b w-1/4">Sobre o projeto</h1>
-    <div class="text-center">
-        <p>O projeto foi feito para a entrega do trabalho de N1 de Linguagens de Programação 1.</p>
-        <p><br>Foi utilizado ASP.NET MVC com banco de dados em SQL Server.</p>
-        <p>Adicionalmente, foi usado Tailwind CSS para a estilização do Frontend.</p>
-        <p><br>Foi feito pelos integrantes Lucas Santos (RA 081220017), Rhian Rodrigues (RA 081220031) e Marcelo Medeiros (RA 082220035).</p>
-    </div>
+    <footer class="w-full flex flex-col items-center">
+        <button onclick="location.href='@Url.Action("About", "Home")'" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition duration-300">
+            Sobre
+        </button>
+    </footer>
 
-  </footer>
-    
 </div>
