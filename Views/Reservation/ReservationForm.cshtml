@@ -12,7 +12,6 @@
     <div class="row">
         <div class="col-md-12">
             <form id="reservationForm" method="post" asp-action="SaveReservation">
-
                 <div class="flex flex-wrap justify-center">
                     @foreach (var room in Model.AvailableRooms)
                     {
@@ -27,14 +26,15 @@
                             <div class="p-4">
                                 <h3 class="text-2xl font-bold">@room.RoomType</h3>
                                 <p class="text-gray-600">@room.Description</p>
-                                <p class="text-gray-800 mt-2">@room.Rate.ToString("C") per night</p>
+                                <p class="text-gray-800 mt-2" id='rate' value="@room.Rate">@room.Rate.ToString("C") Por Noite</p>
                             </div>
                         </div>
                     }
                 </div>
 
-                <input type="hidden" id="selectedRoomId" name="SelectedRoomID" value="" />
-                <input type="hidden" id="totalAmount" name="TotalAmount" value="" />
+                <input asp-for="PersonID" type="hidden" id="personID" name="PersonID" value="@Model.PersonID" />
+                <input asp-for="RoomID" type="hidden" id="selectedRoomId" name="RoomID" value="" />
+                <input asp-for="TotalAmount" type="hidden" id="totalAmount" name="TotalAmount" value="" />
 
                 <button type="submit" id="confirmButton" class="hidden sticky bottom-4 left-0 right-0 mx-auto m-4 w-1/2 bg-blue-500 text-white py-2 rounded-lg text-lg">Confirmar</button>
             </form>
@@ -43,6 +43,9 @@
 </div>
 
 @section Scripts {
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const roomCards = document.querySelectorAll('.room-card');
@@ -58,6 +61,7 @@
                 });
             });
         });
+
     </script>
 
     <style>

@@ -14,6 +14,10 @@ namespace hotel_management.Controllers
 
         public override IActionResult Index()
         {
+
+            ViewBag.IsAdmin = HelperController.AdminSesstionVerification(HttpContext.Session);
+            ViewBag.IsEmployee = HelperController.EmployeeSesstionVerification(HttpContext.Session);
+            
             // Shows all available Rooms
             try
             {

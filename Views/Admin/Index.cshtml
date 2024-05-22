@@ -5,7 +5,7 @@
 
 <div class="flex flex-col items-center">
     <h2 class="text-4xl font-bold mb-6">Pessoas</h2>
-
+  
     <div class="mb-4">
         <input type="text" id="searchInput" placeholder="Buscar pelo nome..." onkeyup="searchPersons()" class="border border-gray-300 rounded w-full p-2">
     </div>
@@ -37,7 +37,6 @@
                             <button class="bg-green-500 text-white py-1 px-3 rounded hover:bg-green-700 transition" onclick="turnToEmployee(@person.Id)">Tornar funcionário</button>
                         </td>
                     </tr>
-                }
             </tbody>
         </table>
     </div>
@@ -67,7 +66,6 @@
                             <button class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-700 transition" onclick="deleteEmployee(@employee.Id)">Remover privilégio</button>
                         </td>
                     </tr>
-                }
             </tbody>
         </table>
     </div>

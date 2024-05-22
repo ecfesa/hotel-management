@@ -11,7 +11,7 @@ namespace hotel_management.Models
         
         public decimal TotalAmount { get; set; }
         public bool IsPaid { get; set; }
-        public int CustomerID { get; set; }
+        public int? PersonID { get; set; }
         public int RoomID { get; set; }
         public List<RoomsViewModel> AvailableRooms { get; set; }
 

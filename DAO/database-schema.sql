@@ -5,16 +5,8 @@ CREATE TABLE Persons (
     LastName VARCHAR(50) NOT NULL,
     Email VARCHAR(100) NOT NULL,
     Username VARCHAR(100) NOT NULL,
-    PasswordHash VARCHAR(255) NOT NULL,
+    PasswordHash VARCHAR(MAX) NOT NULL,
     PhoneNumber VARCHAR(20),
-    -- Add any other relevant fields
-);
-
--- Table for storing customer information
-CREATE TABLE Customers (
-    CustomerID INT PRIMARY KEY IDENTITY,
-    PersonID INT,
-    FOREIGN KEY (PersonID) REFERENCES Persons(PersonID)
 );
 
 -- Table for storing employee information
@@ -33,6 +25,7 @@ CREATE TABLE Rooms (
     Rate DECIMAL(10, 2) NOT NULL,
     Description TEXT,
     IsAvailable BIT NOT NULL DEFAULT 1,
+    Picture VARBINARY(MAX)
 );
 
 -- Room types
@@ -45,9 +38,9 @@ CREATE TABLE Reservations (
     ReservationID INT PRIMARY KEY IDENTITY,
     TotalAmount DECIMAL(10, 2) NOT NULL,
     IsPaid BIT NOT NULL DEFAULT 0,
-    CustomerID INT,
+    PersonID INT,
     RoomID INT,
-    FOREIGN KEY (CustomerID) REFERENCES Persons(PersonID),
+    FOREIGN KEY (PersonID) REFERENCES Persons(PersonID),
     FOREIGN KEY (RoomID) REFERENCES Rooms(RoomID),
     -- Add any other relevant fields
 );
@@ -72,7 +65,7 @@ CREATE PROCEDURE spInsert_Persons
     @FirstName VARCHAR(50),
     @LastName VARCHAR(50),
     @Username VARCHAR(50),
-    @PasswordHash VARCHAR(50),
+    @PasswordHash VARCHAR(MAX),
     @Email VARCHAR(100),
     @PhoneNumber VARCHAR(20)
 AS
@@ -122,56 +115,6 @@ CREATE PROCEDURE spGet_Persons
 AS
 BEGIN
     SELECT * FROM Persons WHERE PersonID = @PersonID;
-END
-GO
-
-----------------------------------------------------------------------
-
--- Insert into Customers
-CREATE PROCEDURE spInsert_Customers
-    @PersonID INT
-AS
-BEGIN
-    INSERT INTO Customers (PersonID)
-    VALUES (@PersonID);
-END
-GO
-
--- Delete from Customers
-CREATE PROCEDURE spDelete_Customers
-    @CustomerID INT
-AS
-BEGIN
-    DELETE FROM Customers WHERE CustomerID = @CustomerID;
-END
-GO
-
--- Update Customers
-CREATE PROCEDURE spUpdate_Customers
-    @CustomerID INT,
-    @PersonID INT
-AS
-BEGIN
-    UPDATE Customers
-    SET PersonID = @PersonID
-    WHERE CustomerID = @CustomerID;
-END
-GO
-
--- Get all Customers
-CREATE PROCEDURE spGetAll_Customers
-AS
-BEGIN
-    SELECT * FROM Customers;
-END
-GO
-
--- Get specific Customer
-CREATE PROCEDURE spGet_Customers
-    @CustomerID INT
-AS
-BEGIN
-    SELECT * FROM Customers WHERE CustomerID = @CustomerID;
 END
 GO
 
@@ -295,12 +238,12 @@ GO
 CREATE PROCEDURE spInsert_Reservations
     @TotalAmount DECIMAL(10, 2),
     @IsPaid BIT,
-    @CustomerID INT,
+    @PersonID INT,
     @RoomID INT
 AS
 BEGIN
-    INSERT INTO Reservations (TotalAmount, IsPaid, CustomerID, RoomID)
-    VALUES (@TotalAmount, @IsPaid, @CustomerID, @RoomID);
+    INSERT INTO Reservations (TotalAmount, IsPaid, PersonID, RoomID)
+    VALUES (@TotalAmount, @IsPaid, @PersonID, @RoomID);
 END
 GO
 
@@ -318,12 +261,12 @@ CREATE PROCEDURE spUpdate_Reservations
     @ReservationID INT
     @TotalAmount DECIMAL(10, 2),
     @IsPaid BIT,
-    @CustomerID INT,
+    @PersonID INT,
     @RoomID INT
 AS
 BEGIN
     UPDATE Reservations
-    SET TotalAmount = @TotalAmount, IsPaid = @IsPaid, CustomerID = @CustomerID, RoomID = @RoomID
+    SET TotalAmount = @TotalAmount, IsPaid = @IsPaid, PersonID = @PersonID, RoomID = @RoomID
     WHERE ReservationID = @ReservationID;
 END
 GO
@@ -402,5 +345,51 @@ GO
 
 
 ----------------------------------------------------------------------
+
+TRIGGERS
+
+CREATE TRIGGER trg_DeletePerson
+ON Persons
+INSTEAD OF DELETE
+AS
+BEGIN
+    -- Declare variables to store deleted person IDs
+    DECLARE @DeletedPersonID INT;
+
+    -- Cursor to iterate through deleted rows
+    DECLARE cur CURSOR FOR SELECT PersonID FROM DELETED;
+    OPEN cur;
+    FETCH NEXT FROM cur INTO @DeletedPersonID;
+
+    WHILE @@FETCH_STATUS = 0
+    BEGIN
+        -- Delete related records from CheckIns based on Reservations
+        DELETE FROM CheckIns
+        WHERE ReservationID IN (
+            SELECT ReservationID 
+            FROM Reservations 
+            WHERE PersonID = @DeletedPersonID
+        );
+
+        -- Delete related records from Reservations
+        DELETE FROM Reservations
+        WHERE PersonID = @DeletedPersonID;
+
+        -- Delete related records from Employees
+        DELETE FROM Employees
+        WHERE PersonID = @DeletedPersonID;
+
+        -- Fetch the next deleted person ID
+        FETCH NEXT FROM cur INTO @DeletedPersonID;
+    END
+
+    CLOSE cur;
+    DEALLOCATE cur;
+
+    -- Finally, delete the person
+    DELETE FROM Persons
+    WHERE PersonID IN (SELECT PersonID FROM DELETED);
+
+END;
 
 */

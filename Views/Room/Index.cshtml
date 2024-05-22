@@ -11,7 +11,13 @@
 </div>
 
 <div class="flex justify-center mt-6 mb-6">
-    <a href="@Url.Action("NewRoom", "Room")" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Adicionar quarto</a>
+    @if(ViewBag.IsAdmin != null|| ViewBag.IsEmployee != null){
+        <button onclick="location.href='@Url.Action("NewRoom", "Room")'" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Adicionar quarto</button>
+    }
+    else{
+        <button onclick="location.href='@Url.Action("NewRoom", "Room")'" class="bg-gray-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" disabled>Adicionar quarto</button>
+    }
+    
 </div>
 
 <div class="flex justify-center">
@@ -31,6 +37,17 @@
             @foreach (var item in Model)
             {
                 <tr class="hover:bg-gray-100 transition duration-150 ease-in-out">
+                    <td class="py-2 px-4 border-b">
+                        @if(ViewBag.IsAdmin != null || ViewBag.IsEmployee != null){
+                            <button onclick="location.href='@Url.Action("EditRoom", "Room", new { id = item.Id })'" class="bg-blue-500 text-white font-bold py-1 px-4 rounded hover:bg-blue-700 transition duration-300">Editar</button>
+                            <button onclick="deleteRoom(@item.Id)" class="bg-red-500 text-white font-bold py-1 px-4 rounded hover:bg-red-700 transition duration-300">Deletar</button>
+                        }
+                        else{
+                            <button onclick="location.href='@Url.Action("EditRoom", "Room", new { id = item.Id })'" class="bg-gray-500 text-white font-bold py-1 px-4 rounded hover:bg-blue-700 transition duration-300" disabled >Editar</button>
+                            <button onclick="deleteRoom(@item.Id)" class="bg-gray-500 text-white font-bold py-1 px-4 rounded hover:bg-red-700 transition duration-300" disabled>Deletar</button>
+                        }
+                        
+                    </td>
                     <td class="py-2 px-4 border-b">@item.RoomNumber.ToString()</td>
                     <td class="py-2 px-4 border-b">@item.RoomType</td>
                     <td class="py-2 px-4 border-b">@item.Rate.ToString("C")</td>
@@ -38,11 +55,11 @@
                     <td class="py-2 px-4 border-b">
                         @if (item.IsAvailable)
                         {
-                            <span class="text-green-600 font-semibold">Yes</span>
+                            <span class="text-green-600 font-semibold">Disponível</span>
                         }
                         else
                         {
-                            <span class="text-red-600 font-semibold">No</span>
+                            <span class="text-red-600 font-semibold">Indisponível</span>
                         }
                     </td>
                     <td class="py-2 px-4 border-b">
