@@ -210,7 +210,7 @@ CREATE PROCEDURE spUpdate_Rooms
 AS
 BEGIN
     UPDATE Rooms
-    SET RoomNumber = @RoomNumber, RoomType = @RoomType, Rate = @Rate, Description = @Description, IsAvailable = @IsAvailable
+    SET RoomNumber = @RoomNumber, RoomType = @RoomType, Rate = @Rate, Description = @Description, IsAvailable = @IsAvailable, Picture = @Picture
     WHERE RoomID = @RoomID;
 END
 GO
