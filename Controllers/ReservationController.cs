@@ -73,6 +73,8 @@ namespace hotel_management.Controllers
 
                 model.IsPaid = false;
                 model.TotalAmount = 0;
+                model.StartDate = null;
+                model.EndDate = null;
                 model.PersonID = HelperController.ActualUserID(HttpContext.Session);
 
                 model.AvailableRooms = roomsDAO.GetAvailableRooms();

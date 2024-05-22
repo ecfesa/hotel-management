@@ -18,11 +18,13 @@ namespace hotel_management.DAO
 
         protected override SqlParameter[] CreateParameters(ReservationViewModel model)
         {
-            SqlParameter[] parameters = new SqlParameter[4];
+            SqlParameter[] parameters = new SqlParameter[6];
             parameters[0] = new SqlParameter("@TotalAmount", model.TotalAmount);
             parameters[1] = new SqlParameter("@IsPaid", model.IsPaid);
             parameters[2] = new SqlParameter("@PersonID", model.PersonID);
             parameters[3] = new SqlParameter("@RoomID", model.RoomID);
+            parameters[4] = new SqlParameter("@StartDate", model.StartDate);
+            parameters[5] = new SqlParameter("@EndDate", model.EndDate);
             
             return parameters;
         }
@@ -35,6 +37,8 @@ namespace hotel_management.DAO
             reservation.IsPaid = (bool)row["IsPaid"];
             reservation.PersonID = (int)row["PersonID"];
             reservation.RoomID = (int)row["RoomID"];
+            reservation.StartDate = row["StartDate"] == DBNull.Value ? (DateTime?) null : (DateTime)row["StartDate"];
+            reservation.EndDate = row["EndDate"] == DBNull.Value ? (DateTime?) null : (DateTime)row["EndDate"];
 
             return reservation;
         }

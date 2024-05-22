@@ -9,40 +9,49 @@
     <h1 class="text-4xl text-center m-4 p-2 border-b w-1/2">Reservas</h1>
 </div>
 
-<div class="w-full flex justify-end mb-4">
-    <a href="@Url.Action("NewReservation", "Reservation")" class="bg-blue-500 text-white py-2 px-4 rounded-lg text-lg shadow-lg hover:bg-blue-700 transition duration-300">New Reservation</a>
+<div class="flex justify-end mb-4">
+    <a href="@Url.Action("NewReservation", "Reservation")" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg text-lg shadow-lg transition duration-300">Nova Reserva</a>
 </div>
 
 <div class="overflow-x-auto">
-    <table class="table-auto w-full border-collapse">
+    <table class="min-w-full bg-white border border-gray-300 text-center">
         <thead>
             <tr>
-                <th class="border px-4 py-2">Ação</th>
-                <th class="border px-4 py-2">Está Pago?</th>
-                <th class="border px-4 py-2">Pessoa que Reservou</th>
-                <th class="border px-4 py-2">ID do Quarto</th>
-                <th class="border px-4 py-2">Tipo do Quarto</th>
+                <th class="py-2 px-4 border-b">Está Pago?</th>
+                <th class="py-2 px-4 border-b">Pessoa que Reservou</th>
+                <th class="py-2 px-4 border-b">Tipo do Quarto</th>
+                <th class="py-2 px-4 border-b">Data de Início</th>
+                <th class="py-2 px-4 border-b">Data de Fim</th>
+                <th class="py-2 px-4 border-b">Ação</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                <tr data-person-id="@item.PersonID">
-                    <td class="border px-4 py-2">
-                        <button class="button" onclick="deleteReservation(@item.Id)">Deletar Reserva</button>
+                <tr class="hover:bg-gray-100 transition duration-150 ease-in-out" data-person-id="@item.PersonID">
+                    <td class="py-2 px-4 border-b">
+                        @if (item.IsPaid)
+                        {
+                            <span class="text-green-600 font-semibold">Sim</span>
+                        }
+                        else
+                        {
+                            <span class="text-red-600 font-semibold">Não</span>
+                        }
                     </td>
-                    <td class="border px-4 py-2">
-                        @item.IsPaid.ToString()
+                    <td class="py-2 px-4 border-b person-name">
                     </td>
-
-                    <td class="border px-4 py-2 person-name">
-                    </td>
-
-                    <td class="border px-4 py-2">
-                        @item.RoomID
-                    </td>
-                    <td class="border px-4 py-2">
+                    <td class="py-2 px-4 border-b">
                         @roomInfo[item.RoomID]
+                    </td>
+                    <td class="py-2 px-4 border-b">
+                        @item.StartDate?.ToString("yyyy-MM-dd")
+                    </td>
+                    <td class="py-2 px-4 border-b">
+                        @item.EndDate?.ToString("yyyy-MM-dd")
+                    </td>
+                    <td class="py-2 px-4 border-b">
+                        <button onclick="deleteReservation(@item.Id)" class="bg-red-500 text-white font-bold py-1 px-4 rounded hover:bg-red-700 transition duration-300">Deletar Reserva</button>
                     </td>
                 </tr>
             }
@@ -50,27 +59,32 @@
     </table>
 </div>
 
-<script>
-    $(document).ready(function () {
-        $('.person-name').each(function () {
-            var personId = $(this).closest('tr').data('person-id');
-            var personNameCell = $(this);
-            $.ajax({
-                url: '@Url.Action("GetPersonNameById", "Reservation")',
-                type: 'GET',
-                data: { id: personId },
-                success: function (response) {
-                    personNameCell.text(response.personName);
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error fetching person name: ' + error);
-                }
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.person-name').each(function () {
+                var personId = $(this).closest('tr').data('person-id');
+                var personNameCell = $(this);
+                $.ajax({
+                    url: '@Url.Action("GetPersonNameById", "Reservation")',
+                    type: 'GET',
+                    data: { id: personId },
+                    success: function (response) {
+                        personNameCell.text(response.personName);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error fetching person name: ' + error);
+                    }
+                });
             });
         });
-    });
 
-
-    function deleteReservation(id){
-        location.href = "/Reservation/Delete?id=" + id + "&id_route=ReservationID";
-    }
-</script>
+        function deleteReservation(id) {
+            if (confirm("Tem certeza que quer deletar essa reserva?")) {
+                var url = '/Reservation/Delete?id=' + id + '&id_route=ReservationID';
+                window.location.href = url;
+            }
+        }
+    </script>
+}

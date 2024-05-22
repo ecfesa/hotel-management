@@ -13,6 +13,8 @@ namespace hotel_management.Models
         public bool IsPaid { get; set; }
         public int? PersonID { get; set; }
         public int RoomID { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public List<RoomsViewModel> AvailableRooms { get; set; }
 
     }
