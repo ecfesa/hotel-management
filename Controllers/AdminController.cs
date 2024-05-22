@@ -145,5 +145,22 @@ namespace hotel_management.Controllers
                 base.OnActionExecuting(context);
             }
         }
+        
+        
+        public JsonResult GetEmployeeNameById(int id)
+        {
+
+            string sql = "select concat(Persons.FirstName,' ', Persons.LastName) as name from Persons inner join Employees on Employees.PersonID = Persons.PersonID where Employees.EmployeeID = " + id;
+            
+            DataTable table = HelperDAO.ExecuteSelect(sql, null);
+
+            if (table.Rows == null)
+            {
+                return Json(new { success = false, message = "Employee not found" });
+            }
+
+            return Json(new { success = true, personName = table.Rows[0]["name"] });
+        }
+        
     }
 }

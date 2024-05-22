@@ -59,7 +59,7 @@
                 {
                     <tr class="border-b border-gray-200 hover:bg-gray-100">
                         <td class="py-3 px-6">@employee.Id</td>
-                        <td class="py-3 px-6">@employee.PersonID</td>
+                        <td class="employee-name" data-employee-id="@employee.Id"></td>
                         <td class="py-3 px-6">
                             <input type="checkbox" data-person-id="@employee.PersonID" data-employee-id="@employee.Id" onchange="updateAdminStatus(this)" @(employee.IsAdmin ? "checked" : "") class="align-middle" />
                         </td>
@@ -152,4 +152,27 @@
             }
         });
     }
+
+    $(document).ready(function () {
+        $('.employee-name').each(function () {
+            var employeeId = $(this).data('employee-id'); // Corrigido aqui
+            var employeeNameCell = $(this);
+            $.ajax({
+                url: '@Url.Action("GetEmployeeNameById", "Admin")',
+                type: 'GET',
+                data: { id: employeeId },
+                success: function (response) {
+                    if (response.success) {
+                        employeeNameCell.text(response.personName);
+                    } else {
+                        console.error('Error: ' + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching employee name: ' + error);
+                }
+            });
+        });
+    });
+
 </script>
