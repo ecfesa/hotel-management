@@ -86,7 +86,7 @@
 
         function deleteReservation(id) {
             if (confirm("Tem certeza que quer deletar essa reserva?")) {
-                var url = '@Url.Action("DeleteReservation", "Reservation")?id=' + id;
+                var url = '/Reservation/Delete?id=' + id + '&id_route=ReservationID';
                 window.location.href = url;
             }
         }
