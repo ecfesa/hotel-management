@@ -24,13 +24,13 @@
     <table class="min-w-full bg-white border border-gray-300 text-center">
         <thead>
             <tr>
-                <th class="py-2 px-4 border-b">Ação</th>
-                <th class="py-2 px-4 border-b">Número do Quarto</th>
-                <th class="py-2 px-4 border-b">Tipo do Quarto</th>
-                <th class="py-2 px-4 border-b">Preço</th>
-                <th class="py-2 px-4 border-b">Descrição</th>
-                <th class="py-2 px-4 border-b">Disponibilidade</th>
-                <th class="py-2 px-4 border-b">Imagem</th>
+                <th class="py-2 px-4 border-b">Number</th>
+                <th class="py-2 px-4 border-b">Type</th>
+                <th class="py-2 px-4 border-b">Rate</th>
+                <th class="py-2 px-4 border-b">Description</th>
+                <th class="py-2 px-4 border-b">Availability</th>
+                <th class="py-2 px-4 border-b">Image</th>
+                <th class="py-2 px-4 border-b">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -64,6 +64,10 @@
                     </td>
                     <td class="py-2 px-4 border-b">
                         <img src="@Url.Action("RenderImage", "Room", new { id = item.Id })" class="w-32 h-auto object-cover rounded-lg" />
+                    </td>
+                    <td class="py-2 px-4 border-b">
+                        <button onclick="location.href='@Url.Action("EditRoom", "Room", new { id = item.Id })'" class="bg-blue-500 text-white font-bold py-1 px-4 rounded hover:bg-blue-700 transition duration-300">Modificar</button>
+                        <button onclick="deleteRoom(@item.Id)" class="bg-red-500 text-white font-bold py-1 px-4 rounded hover:bg-red-700 transition duration-300">Remover</button>
                     </td>
                 </tr>
             }
