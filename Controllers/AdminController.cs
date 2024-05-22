@@ -28,6 +28,8 @@ namespace hotel_management.Controllers
         public override IActionResult Index()
         {
 
+            ViewBag.IsAdmin = HelperController.AdminSesstionVerification(HttpContext.Session);
+
             EmployeesDAO employeesDAO = new EmployeesDAO();
             PersonsDAO personsDAO = new PersonsDAO();
 

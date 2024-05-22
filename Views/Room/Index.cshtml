@@ -11,20 +11,26 @@
 </div>
 
 <div class="flex justify-center mt-6 mb-6">
-    <a href="@Url.Action("NewRoom", "Room")" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Adicionar quarto</a>
+    @if(ViewBag.IsAdmin != null|| ViewBag.IsEmployee != null){
+        <button onclick="location.href='@Url.Action("NewRoom", "Room")'" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Adicionar quarto</button>
+    }
+    else{
+        <button onclick="location.href='@Url.Action("NewRoom", "Room")'" class="bg-gray-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" disabled>Adicionar quarto</button>
+    }
+    
 </div>
 
 <div class="flex justify-center">
     <table class="min-w-full bg-white border border-gray-300 text-center">
         <thead>
             <tr>
-                <th class="py-2 px-4 border-b">Action</th>
-                <th class="py-2 px-4 border-b">Number</th>
-                <th class="py-2 px-4 border-b">Type</th>
-                <th class="py-2 px-4 border-b">Rate</th>
-                <th class="py-2 px-4 border-b">Description</th>
-                <th class="py-2 px-4 border-b">Availability</th>
-                <th class="py-2 px-4 border-b">Image</th>
+                <th class="py-2 px-4 border-b">Ação</th>
+                <th class="py-2 px-4 border-b">Número do Quarto</th>
+                <th class="py-2 px-4 border-b">Tipo do Quarto</th>
+                <th class="py-2 px-4 border-b">Preço</th>
+                <th class="py-2 px-4 border-b">Descrição</th>
+                <th class="py-2 px-4 border-b">Disponibilidade</th>
+                <th class="py-2 px-4 border-b">Imagem</th>
             </tr>
         </thead>
         <tbody>
@@ -32,8 +38,15 @@
             {
                 <tr class="hover:bg-gray-100 transition duration-150 ease-in-out">
                     <td class="py-2 px-4 border-b">
-                        <button onclick="location.href='@Url.Action("EditRoom", "Room", new { id = item.Id })'" class="bg-blue-500 text-white font-bold py-1 px-4 rounded hover:bg-blue-700 transition duration-300">Update</button>
-                        <button onclick="deleteRoom(@item.Id)" class="bg-red-500 text-white font-bold py-1 px-4 rounded hover:bg-red-700 transition duration-300">Delete</button>
+                        @if(ViewBag.IsAdmin != null || ViewBag.IsEmployee != null){
+                            <button onclick="location.href='@Url.Action("EditRoom", "Room", new { id = item.Id })'" class="bg-blue-500 text-white font-bold py-1 px-4 rounded hover:bg-blue-700 transition duration-300">Editar</button>
+                            <button onclick="deleteRoom(@item.Id)" class="bg-red-500 text-white font-bold py-1 px-4 rounded hover:bg-red-700 transition duration-300">Deletar</button>
+                        }
+                        else{
+                            <button onclick="location.href='@Url.Action("EditRoom", "Room", new { id = item.Id })'" class="bg-gray-500 text-white font-bold py-1 px-4 rounded hover:bg-blue-700 transition duration-300" disabled >Editar</button>
+                            <button onclick="deleteRoom(@item.Id)" class="bg-gray-500 text-white font-bold py-1 px-4 rounded hover:bg-red-700 transition duration-300" disabled>Deletar</button>
+                        }
+                        
                     </td>
                     <td class="py-2 px-4 border-b">@item.RoomNumber.ToString()</td>
                     <td class="py-2 px-4 border-b">@item.RoomType</td>
@@ -42,11 +55,11 @@
                     <td class="py-2 px-4 border-b">
                         @if (item.IsAvailable)
                         {
-                            <span class="text-green-600 font-semibold">Yes</span>
+                            <span class="text-green-600 font-semibold">Disponível</span>
                         }
                         else
                         {
-                            <span class="text-red-600 font-semibold">No</span>
+                            <span class="text-red-600 font-semibold">Indisponível</span>
                         }
                     </td>
                     <td class="py-2 px-4 border-b">

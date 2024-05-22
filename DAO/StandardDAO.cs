@@ -31,8 +31,8 @@ namespace hotel_management.DAO
 
             //TODO - Improve this delete method
 
-            var p = new SqlParameter[]{
-                new SqlParameter(id_route, id),
+            var p = new SqlParameter[1]{
+                new SqlParameter("@" + id_route, id),
             };
             
             HelperDAO.ExecutaProc("spDelete_" + Table, p);

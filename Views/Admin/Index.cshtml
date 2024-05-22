@@ -51,12 +51,12 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Actions</th>
-                        <th>PersonID</th>
-                        <th>FirstName</th>
-                        <th>LastName</th>
+                        <th>Ações</th>
+                        <th>ID da Pessoa</th>
+                        <th>Primeiro Nome</th>
+                        <th>Ultimo Nome</th>
                         <th>Email</th>
-                        <th>PhoneNumber</th>
+                        <th>Número de Telefone</th>
                     </tr>
                 </thead>
                 <tbody id="personsTableBody">
@@ -66,9 +66,9 @@
                             <td>
                                 <button class="button" onclick="editPerson(@person.Id)">Editar</button>
                                 <br>
-                                <button class="button" onclick="deletePerson(@person.Id)">Delete</button>
+                                <button class="button" onclick="deletePerson(@person.Id)">Deletar</button>
                                 <br>
-                                <button class="button" onclick="turnToEmployee(@person.Id)">Turn into Employee</button>
+                                <button class="button" onclick="turnToEmployee(@person.Id)">Tornar Funcionário</button>
                             </td>
                             <td>@person.Id</td>
                             <td>@person.FirstName</td>
@@ -87,11 +87,11 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Actions</th>
+                        <th>Ações</th>
                         <th>ID</th>
                         <th>PersonID</th>
                         <th></th>
-                        <th>IsAdmin?</th>
+                        <th>É Admin?</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -99,7 +99,7 @@
                     {
                         <tr>
                             <td>
-                                <button class="button" onclick="deleteEmployee(@employee.Id)">Delete Employee</button>
+                                <button class="button" onclick="deleteEmployee(@employee.Id)">Deletar Funcionario</button>
                             </td>
                             <td>@employee.Id</td>
                             <td>@employee.PersonID</td>
@@ -188,7 +188,7 @@
                             '<td>' +
                             '<button class="button" onclick="editPerson(' + person.id + ')">Editar</button>' +
                             '<br>' +
-                            '<button class="button" onclick="deletePerson(' + person.id + ')">Delete</button>' +
+                            '<button class="button" onclick="deletePerson(' + person.id + ')">Deletar</button>' +
                             '<br>' +
                             '<button class="button" onclick="turnToEmployee(' + person.id + ')">Turn into Employee</button>' +
                             '</td>' +

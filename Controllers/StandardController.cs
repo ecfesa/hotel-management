@@ -14,7 +14,7 @@ namespace hotel_management.Controllers
     {
         // Standard Controller for CRUD operations
         protected bool NeedsAuthentication { get; set; } = true;
-        protected StandardDAO<T>? DAO { get; set; }
+        protected StandardDAO<T> DAO { get; set; }
 
         // Default view names
         protected string IndexViewName { get; set; } = "Index";
@@ -85,6 +85,7 @@ namespace hotel_management.Controllers
         // Deletes the item in the database
         public virtual IActionResult Delete(int id, string id_route)
         {
+
             try
             {
                 DAO.Delete(id, id_route);

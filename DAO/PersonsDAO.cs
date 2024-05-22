@@ -106,7 +106,7 @@ namespace hotel_management.DAO
 
         }
 
-        public override PersonViewModel? Get(int id)
+        public PersonViewModel Get(int? id)
         {
             // Implementação do método de consulta por id
 

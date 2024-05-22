@@ -12,13 +12,13 @@
         <input type="hidden" asp-for="Id" />
 
         <div class="mb-4">
-            <label for="FirstName" class="block text-gray-700 font-bold mb-2">First Name</label>
+            <label for="FirstName" class="block text-gray-700 font-bold mb-2">Primeiro Nome</label>
             <input type="text" asp-for="FirstName" class="form-control border border-gray-300 rounded w-full p-2" required />
             <span asp-validation-for="FirstName" class="text-red-500 block mt-1"></span>
         </div>
 
         <div class="mb-4">
-            <label for="LastName" class="block text-gray-700 font-bold mb-2">Last Name</label>
+            <label for="LastName" class="block text-gray-700 font-bold mb-2">Ultimo Nome</label>
             <input type="text" asp-for="LastName" class="form-control border border-gray-300 rounded w-full p-2" required />
             <span asp-validation-for="LastName" class="text-red-500 block mt-1"></span>
         </div>
@@ -30,26 +30,26 @@
         </div>
 
         <div class="mb-4">
-            <label for="Username" class="block text-gray-700 font-bold mb-2">Username</label>
+            <label for="Username" class="block text-gray-700 font-bold mb-2">Nome de Usuário</label>
             <input type="text" asp-for="Username" class="form-control border border-gray-300 rounded w-full p-2" required />
             <span asp-validation-for="Username" class="text-red-500 block mt-1"></span>
         </div>
 
         <div class="mb-4">
-            <label for="PasswordHash" class="block text-gray-700 font-bold mb-2">New Password</label>
+            <label for="PasswordHash" class="block text-gray-700 font-bold mb-2">Nova Senha</label>
             <input type="password" asp-for="PasswordHash" class="form-control border border-gray-300 rounded w-full p-2" required />
             <span asp-validation-for="PasswordHash" class="text-red-500 block mt-1"></span>
         </div>
 
         <div class="mb-4">
-            <label for="PhoneNumber" class="block text-gray-700 font-bold mb-2">Phone Number</label>
+            <label for="PhoneNumber" class="block text-gray-700 font-bold mb-2">Número de Telefone</label>
             <input type="text" asp-for="PhoneNumber" class="form-control border border-gray-300 rounded w-full p-2" />
             <span asp-validation-for="PhoneNumber" class="text-red-500 block mt-1"></span>
         </div>
 
         <div class="flex justify-between mt-6">
-            <button type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-md shadow-lg hover:bg-blue-700 transition duration-300">Save</button>
-            <a href="@Url.Action("Index", "Admin")" class="bg-gray-500 text-white font-bold py-2 px-4 rounded-md shadow-lg hover:bg-gray-700 transition duration-300">Back to List</a>
+            <button type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-md shadow-lg hover:bg-blue-700 transition duration-300">Salvar</button>
+            <a href="@Url.Action("Index", "Admin")" class="bg-gray-500 text-white font-bold py-2 px-4 rounded-md shadow-lg hover:bg-gray-700 transition duration-300">Voltar para a Lista</a>
         </div>
     </form>
 </div>
